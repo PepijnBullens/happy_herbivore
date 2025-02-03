@@ -1,0 +1,71 @@
+- What is visible before you start placing an order?
+
+A screen with the purpose of attracting customers. 
+
+- How do you start an order, and are there different options at the start?
+
+The order starts by clicking on "Order Here", you have the option to eat in the order place or to take-out. 
+There also is an option to change the language of the procedure.
+
+- How do you add an item to your order?
+
+By searching for the item on the screen, this is done by scrolling through categories on the left and choosing an item in one of these categories.
+When you click on an item you get a screen to determine what sides, sauces, other personalization options you want. Once this is chosen there is a big "Add to order" button to add the items to the order 
+which only works if all personalization options are chosen.
+
+- How do you remove an item from your order?
+
+Once an item is added to the order you can click on the button "Your order" and see all the items in your order.
+This allows you to remove an item by clicking on the trash can icon.
+
+- How are the items displayed or located?
+
+On the left side of the screen there is a vertical scrollbar which allows you to scroll through categories.
+Once clicked on a category the items appear on the right side of the category bar.
+
+- How does the interaction proceed? Do you only have to click, or is scrolling also possible?
+
+You can vertically scroll on both the category bar and content items.
+
+- How does the checkout process work?
+
+Normally the customer is prompted with a payment by card. But Harry Harper has told us that another part of his company is handling the payment process. This means we are making a system where you can click on the "Your Order" page 
+which shows another button with "Pay Now". Once clicked you go to a page which will handle the payment, in our case we have a 2 second delay which then confirms the payment.
+
+- What does the design look like?
+
+The design is very minimalistic and uses a strict corporate identity with predefined colors and style.
+
+We are using the following colors provided by Harry Harper:
+
+Orange #ff7520
+LightOrange #ffb181
+Green #8cd003
+LightGreen #deff78
+DarkBlue #053631
+
+We are also going for a minimalistic and nature-like design which is inspired by the Happy Herbivore.
+
+- What do the images and lettering look like?
+
+They, just like the design, are minimalistic and are very much there for a reason. They attract the customers and show what they can expect.
+
+- How is the image quality?
+
+The image quality is high but compressed enough to not take too long to load.
+
+- How big is the screen?
+
+The screen is big enough to allow the user to see and interact with the items on the menu.
+
+- What is the screen ratio and position?
+
+The screen has a resolution of 1920x1080 but is displayed in a portrait mode.
+
+- Where and how is the kiosk positioned in relation to its surroundings?
+
+The screens are displayed in groups usually infront of the bar where the food is served.
+
+- How many kiosks are present?
+
+In our case (Amazing Oriental in Hoog Catharijne) there we're two pillars with both 4 displays. So in total 8 kiosk screens
