@@ -1,6 +1,6 @@
 - What is visible before you start placing an order?
 
-A screen with the purpose of attracting customers. 
+A screen with the purpose of attracting customers. This is done by showing the best looking items on the menu on the initial screen. 
 
 - How do you start an order, and are there different options at the start?
 
