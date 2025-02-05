@@ -1,0 +1,67 @@
+-- Functional Design --
+--     2/5/2025      --
+--        v1         --
+
+
+
+-- Description
+
+Happy Herbivore is a healthy vegan fast food chain and they are getting a new location in Hoog Catharijne. 
+In this new location Harry Harper, who is in charge of the ICT-department and internal development in the Happy Herbivore team, 
+wants a new self service kiosk system. Harry Harper and his development team are currently understaffed and thus very busy, which is why we are making it.
+This system was inspired by the already massively used systems at other fast food chains like: 
+McDonalds, KFC or the Amazing Oriental, which is where we have done our research for this project.
+
+- What elements are there?
+From our research one thing has become very clear, 
+we want to attract customers with minimalistic but purpose driven visuals/designs.
+As for the elements themselves we need a way for customers to navigate food categories and then select items.
+We do this by adding a big scroll bar at the left side of the screen containing the categories with, once selected, clear visuals of the items next to it.
+After the full order is selected the customer can click on a button displaying their total cost which then sends them to the payment screen.
+We have discussed payment possibilities with Harry Harper and we came to the conclusion that he will be later handling the payment with a card.
+This means we will be adding a delay once a confirm button has been clicked to simulate temporary payment processing.
+
+- What is the purpose of these elements?
+The purpose of these elements is to create a seamless and visually appealing ordering experience for customers. 
+The minimalistic but purpose driven design helps attract customers while ensuring easy navigation through food categories. 
+The scroll bar allows users to efficiently browse options, and the total cost button provides a clear way to proceed to payment
+
+- How do these elements work?
+The elements work by guiding the user through a structured ordering process. 
+The scroll bar on the left side of the screen lets customers browse food categories, 
+and selecting a category displays corresponding food items clearly. Once items are chosen, 
+the total cost button allows users to review their order and proceed to the payment screen. 
+Clicking the confirm button triggers a short delay to simulate payment processing before the manual card transaction is added by Harry Harpers development team.
+
+
+
+-- Usability
+
+- What ideas have been devised for a user-friendly experience of the end product?
+As previously mentioned we try to provide a clear path the customer can follow to achieve an easy, successful and fast order.
+We do this by creating easy to read buttons, texts and an easy general layout to follow.
+
+
+
+-- Target group research
+
+- Which target group will use the final product?
+After our research we have come to the conclusion that our target group is of all ages, but of course is mostly vegan.
+We do think that the customer will mostly exist of people that don't have a lot of time since they are going to a "fast" food chain.
+Which is why it's especially important that the kiosk system is self explanatory and fast to work (How we do this is explained in the previous parts of this document). 
+
+- What are the characteristics of this target group?
+After our research we noticed our future customers dont really have a lot of characteristics except for: being in a hurry and vegan.
+We think this is enough to work with and makes it more than clear on how our designs should turn out.
+
+
+
+-- Wireframes/designs
+
+These are findable in the current directiory under `designs-wireframes/`.
+
+
+
+-- Use Case Scenario’s
+
+????????

@@ -1,0 +1,38 @@
+Pages:
+
+are you still there
+    after 20 seconds of no activity a prompt is given to ask if the customer is still there
+
+welcome
+    image carousel of good looking items
+    language switcher
+    start order button
+
+order type
+    choose between eat here and take away
+
+choose order
+    category bar
+        image of one item out of the category
+        category name
+    items
+        image
+        name
+        price
+    go to order button
+
+    
+confirm item
+    image
+    name
+    price
+    description
+    kcal
+    add to order button
+
+Your order
+    all items in order
+
+Checkout
+
+Thank you for ordering
