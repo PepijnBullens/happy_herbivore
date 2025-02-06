@@ -6,6 +6,8 @@ products
     name
     description
     price
+    with_dip
+    extra_choices
     kcal
     available
 
@@ -20,6 +22,15 @@ orders
     pickup_number
     price
     datetime
+
+order_contents
+    order_data_id
+    order_id > references(orders.order_id)
+    product_id > references(products.product_id)
+    product_count
+    with_dip
+    extra_choices
+
 
 order_statuses
     order_status_id

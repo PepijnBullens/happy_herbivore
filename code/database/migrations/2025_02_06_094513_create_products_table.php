@@ -15,13 +15,15 @@ return new class extends Migration
             $table->id();
             $table->integer('category_id')->references('id')->on('categories');
             $table->string('name_dutch');
-            $table->text('description_dutch');
+            $table->text('description_dutch')->nullable();
             $table->string('name_english');
-            $table->text('description_english');
+            $table->text('description_english')->nullable();
             $table->string('name_german');
-            $table->text('description_german');
+            $table->text('description_german')->nullable();
             $table->decimal('price', 10, 2);
             $table->integer('kcal');
+            $table->boolean('with_dip')->default(false);
+            $table->json('extra_choices')->nullable();
             $table->boolean('available')->default(true);
             $table->timestamps();
         });
