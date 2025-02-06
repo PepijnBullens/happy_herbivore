@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('name_german');
             $table->text('description_german');
             $table->decimal('price', 10, 2);
-            $table->string('kcal');
+            $table->integer('kcal');
             $table->boolean('available')->default(true);
             $table->timestamps();
         });
