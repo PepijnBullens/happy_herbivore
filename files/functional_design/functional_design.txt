@@ -64,4 +64,88 @@ These are findable in the current directiory under `designs-wireframes/`.
 
 -- Use Case Scenario’s
 
-????????
+### **Ordering Food at a Self-Service Kiosk**
+
+### **Actors:**
+
+- **Customer 1** (Alice) – Health-conscious and prefers vegetarian options.
+- **Customer 2** (Bob) – Looking for a high-protein meal and a snack.
+- **Self-Service Kiosk System** – Allows customers to start an order, browse the menu, add, remove, and modify orders before checkout.
+
+---
+
+### **Use Case Flow:**
+
+### **1. Start Order**
+
+Alice and Bob arrive at the self-service kiosk. 
+
+The self-service kiosk is ready to take a new order.
+
+Alice and Bob start their order interacting with the self-service kiosk.
+
+---
+
+### **2. Alice’s Order:**
+
+First Alice browses the menu and selects:
+
+- **Supergreen Salad (€5.00, 300 kcal)**
+- **Zesty Chickpea Wrap (€4.50, 400 kcal)**
+- **Fruit-Infused Water (Strawberry-Basil) (€1.50, 0 kcal)**
+
+Then Alice realizes she prefers **a lighter meal** and removes the **Zesty Chickpea Wrap.**
+
+She replaces it with:
+
+- **Peanut Butter Power Toast (€2.80, 220 kcal)**
+
+---
+
+### **3. Bob’s Order:**
+
+After Alice now Bob browses the menu and selects:
+
+- **Protein-Packed Bowl (€6.00, 450 kcal)**
+- **Baked Falafel Bites (€3.50, 220 kcal)**
+- **Green Glow Smoothie (€3.50, 120 kcal)**
+
+Bob decides to **swap the Green Glow Smoothie** for the **Berry Blast Smoothie (€3.80, 140 kcal)** for a sweeter taste.
+
+---
+
+### 4. Review order
+
+Alice and Bob finished browsing and selecting their order and proceed reviewing their order before payment.
+
+---
+
+### **5. Finalizing the Order**
+
+Alice and Bob proceed to payment.
+
+- **Total for both:** €22.60
+
+Once paid, the kiosk prints the unique **order number**.
+
+---
+
+### **6. Order Completion**
+
+The kitchen prepares the meals, and Alice and Bob collect their meals from the counter when their order is ready.
+
+---
+
+### **Key Features Utilized in the Kiosk System:**
+
+✔ Start– 
+
+✔ **Adding and removing items** – Alice removed an item and replaced it.
+
+✔ **Modifying an order** – Bob swapped his smoothie for a different one.
+
+✔ **Modifying an order** – Bob swapped his smoothie for a different one.
+
+✔ **Digital payment processing** – The kiosk handled their payment seamlessly.
+
+✔ Order number.
