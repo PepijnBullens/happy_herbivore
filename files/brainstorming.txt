@@ -1,3 +1,45 @@
+Database:
+
+products
+    product_id
+    category_id > references(categories.category_id)
+    name
+    description
+    price
+    kcal
+    available
+
+categories
+    category_id
+    name
+    description
+
+orders
+    order_id
+    order_status_id > references(order_status.order_status_id)
+    pickup_number
+    price
+    datetime
+
+order_statuses
+    order_status_id
+
+order_status_descriptions
+    order_status_descriptions_id
+    placed_and_paid
+    preparing
+    ready_for_pickup
+    picked_up
+
+images
+    image_id
+    imageable_id > references the id of the image (id in table)
+    imageable_type > references the type of image (which table)
+    path
+    alt
+
+
+
 Pages:
 
 are you still there
