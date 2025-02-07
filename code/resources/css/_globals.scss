@@ -1,0 +1,28 @@
+@use "sass:color";
+
+$orange: #ff7520;
+$dark-green: #053631;
+$darker-green: #0a302c;
+$white: #ffffff;
+
+@mixin hoverButton($color) {
+    background-color: $color;
+    &:hover {
+        background-color: color.adjust($color: $color, $lightness: -5%);
+    }
+}
+
+@font-face {
+    font-family: renos;
+    src: url("/assets/fonts/renos-rough.ttf");
+}
+
+@font-face {
+    font-family: noto-regular;
+    src: url("/assets/fonts/NotoSans-Regular.ttf");
+}
+
+@font-face {
+    font-family: noto-bold;
+    src: url("/assets/fonts/NotoSans-Bold.ttf");
+}

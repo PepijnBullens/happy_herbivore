@@ -17,8 +17,12 @@
     },
     "dependencies": {
         "@inertiajs/react": "^2.0.3",
+        "@popmotion/popcorn": "^0.4.4",
         "@vitejs/plugin-react": "^4.3.4",
+        "framer-motion": "^12.4.1",
+        "lucide-react": "^0.474.0",
         "react": "^19.0.0",
-        "react-dom": "^19.0.0"
+        "react-dom": "^19.0.0",
+        "react-svg": "^16.3.0"
     }
 }

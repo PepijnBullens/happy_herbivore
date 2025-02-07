@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
+use App\Http\Controllers\ImageController;
+use App\Http\Controllers\ProductController;
 
-Route::get('/', function () {
-    return Inertia::render('Welcome');
-});
+Route::get('/', [ImageController::class, 'index'])->name('images.index');
+
+Route::get('/set-language/{language}', [ProductController::class, 'setLanguage'])->name('products.setLanguage');

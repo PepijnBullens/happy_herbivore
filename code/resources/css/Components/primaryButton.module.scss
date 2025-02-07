@@ -1,0 +1,25 @@
+@use "../globals";
+
+.primary__button {
+    font-family: renos;
+    text-transform: uppercase;
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    color: globals.$white;
+    background-color: globals.$orange;
+    border-radius: 10px;
+    border: none;
+    outline: none;
+    transition: all 0.3s;
+    cursor: pointer;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+
+    @include globals.hoverButton(globals.$orange);
+
+    svg {
+        width: 1.2rem;
+    }
+}
