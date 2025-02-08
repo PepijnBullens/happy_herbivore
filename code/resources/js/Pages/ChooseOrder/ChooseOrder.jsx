@@ -8,6 +8,7 @@ export default function ChooseOrder({
     category,
     popular,
     products,
+    totalPrice,
 }) {
     const order = () => {
         console.log("order");
@@ -23,6 +24,7 @@ export default function ChooseOrder({
             order={order}
             inspectedProduct={inspectedProduct}
             setInspectedProduct={setInspectedProduct}
+            totalPrice={totalPrice}
         >
             <h2 className={styles.product__title}>- {category}</h2>
 

@@ -163,6 +163,7 @@ class ProductController extends Controller
                 'category' => $category,
                 'popular' => $popular,
                 'products' => $products,
+                'totalPrice' => $this->calculateTotalPrice(),
             ]);
         } else {
             return to_route('images.index');

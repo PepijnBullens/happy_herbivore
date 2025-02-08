@@ -14,12 +14,13 @@ export default function ChooseOrderLayout({
     order,
     inspectedProduct,
     setInspectedProduct,
+    totalPrice,
 }) {
     const back = () => {
         router.visit("/reset-order");
     };
 
-    const [total, setTotal] = useState(0.0);
+    const [total, setTotal] = useState(totalPrice ?? 0);
 
     const [tryClosingModal, setTryClosingModal] = useState(false);
 
