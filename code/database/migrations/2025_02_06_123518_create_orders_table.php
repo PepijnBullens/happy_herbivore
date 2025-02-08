@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->integer('order_status_id')->references('id')->on('order_statuses');
             $table->tinyInteger('pickup_number')->unsigned();
             $table->timestamps();
         });        

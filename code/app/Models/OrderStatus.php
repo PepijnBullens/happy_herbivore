@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class OrderStatus extends Model
 {
-    protected $fillable = ['order_started', 'order_successful', 'order_preparing', 'order_ready', 'order_picked_up'];
+    protected $fillable = ['order_id', 'order_started', 'order_successful', 'order_preparing', 'order_ready', 'order_picked_up'];
 
     protected $hidden = [
         'id',
@@ -14,8 +14,8 @@ class OrderStatus extends Model
         'created_at',
     ];
 
-    public function orders()
+    public function order()
     {
-        return $this->hasMany(Order::class);
+        return $this->belongsTo(Order::class);
     }
 }
