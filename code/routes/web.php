@@ -11,11 +11,10 @@ Route::get('/choose-order', function () {
     $imageController = new ImageController();
     return to_route('products.chooseOrder', ['category' => $imageController->categoryBasedOnTime()]);
 });
-
 Route::get('/choose-order/{category}', [ProductController::class, 'chooseOrder'])->name('products.chooseOrder');
 
-Route::get('/remove-order-type', [ProductController::class, 'removeOrderType'])->name('products.removeOrderType');
+Route::get('/add-to-order/{id}/{quantity}', [ProductController::class, 'addToOrder'])->name('products.addToOrder');
 
-
+Route::get('/reset-order', [ProductController::class, 'resetOrder'])->name('products.resetOrder');
 Route::get('/set-language/{language}', [ProductController::class, 'setLanguage'])->name('products.setLanguage');
 Route::get('/set-order-type/{orderType}', [ProductController::class, 'setOrderType'])->name('products.setOrderType');

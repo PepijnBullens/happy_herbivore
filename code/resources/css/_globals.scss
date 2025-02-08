@@ -4,6 +4,8 @@ $orange: #ff7520;
 $dark-green: #053631;
 $darker-green: #0a302c;
 $white: #ffffff;
+$black: #000000;
+$border: #ececec;
 
 @mixin hoverButton($color) {
     background-color: $color;

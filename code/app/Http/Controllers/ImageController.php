@@ -29,17 +29,25 @@ class ImageController extends Controller
     public function categoryBasedOnTime() {
         $categories = [
             'Breakfast' => ['06:00', '11:00'],
-            'Lunch & Dinner' => ['17:00', '22:00'],
+            'Lunch & Dinner' => ['11:00', '17:00'],
             'Drinks' => ['22:00', '06:00'],
         ];
 
         $currentTime = now()->format('H:i');
 
         foreach ($categories as $category => $times) {
-            if ($currentTime >= $times[0] && $currentTime <= $times[1]) {
-                return $category;
+            if ($times[0] < $times[1]) {
+                if ($currentTime >= $times[0] && $currentTime < $times[1]) {
+                    return $category;
+                }
+            } else {
+                if ($currentTime >= $times[0] || $currentTime < $times[1]) {
+                    return $category;
+                }
             }
         }
+
+        return 'Breakfast';
     }
 
     public function index() {

@@ -1,5 +1,6 @@
 import ChooseOrderLayout from "@/Layouts/ChooseOrderLayout";
 import styles from "../../../css/chooseOrder.module.scss";
+import { useState } from "react";
 
 export default function ChooseOrder({
     language,
@@ -12,7 +13,7 @@ export default function ChooseOrder({
         console.log("order");
     };
 
-    console.log(popular);
+    const [inspectedProduct, setInspectedProduct] = useState(null);
 
     return (
         <ChooseOrderLayout
@@ -20,12 +21,18 @@ export default function ChooseOrder({
             categories={categories}
             popular={popular}
             order={order}
+            inspectedProduct={inspectedProduct}
+            setInspectedProduct={setInspectedProduct}
         >
             <h2 className={styles.product__title}>- {category}</h2>
 
             <div className={styles.content}>
                 {products.map((product, index) => (
-                    <div className={styles.product} key={`product-${index}`}>
+                    <div
+                        className={styles.product}
+                        key={`product-${index}`}
+                        onClick={() => setInspectedProduct(product)}
+                    >
                         <img src={product.path} alt={product.alt} />
                         <div className={styles.product__info}>
                             <h2>{product.name}</h2>
@@ -42,7 +49,11 @@ export default function ChooseOrder({
 
             <div className={styles.content}>
                 {popular.map((product, index) => (
-                    <div className={styles.product} key={`popular-${index}`}>
+                    <div
+                        className={styles.product}
+                        key={`popular-${index}`}
+                        onClick={() => setInspectedProduct(product)}
+                    >
                         <img src={product.path} alt={product.alt} />
                         <div className={styles.product__info}>
                             <h2>{product.name}</h2>

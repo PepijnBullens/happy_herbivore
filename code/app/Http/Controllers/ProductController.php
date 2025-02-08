@@ -32,6 +32,7 @@ class ProductController extends Controller
                     'price' => $product->price,
                     'path' => $product->image ? asset('storage/' . $product->image->path) : null,
                     'alt' => $product->image ? $product->image->alt : null,
+                    'description' => $product->{'description_' . session('language')},
                 ];
             });
     
@@ -72,11 +73,50 @@ class ProductController extends Controller
         return response()->json(['orderType' => $orderType]);
     }
 
-    public function removeOrderType()
+    public function resetOrder()
     {
         session()->forget('orderType');
+        session()->forget('order');
 
         return to_route('images.index');
+    }
+
+    private function calculateTotalPrice() {
+        $order = session('order', []);
+
+        $totalPrice = 0;
+
+        foreach ($order as $id => $orderItem) {
+            $product = Product::find($id);
+
+            if ($product) {
+                $totalPrice += $product->price * $orderItem['quantity'];
+            }
+        }
+
+        return $totalPrice;
+    }
+
+    public function addToOrder($id, $quantity = 1) {
+        $product = Product::find($id);
+
+        if (!$product) {
+            return response()->json(['error' => 'Product not found']);
+        }
+
+        $order = session('order', []);
+
+        if (array_key_exists($id, $order)) {
+            $order[$id]['quantity'] += $quantity;
+        } else {
+            $order[$id] = [
+                "quantity" => $quantity,
+            ];
+        }
+
+        session(['order' => $order]);
+
+        return response()->json(['order' => $order, 'totalPrice' => $this->calculateTotalPrice()]);
     }
 
     public function chooseOrder($category) {
@@ -113,6 +153,7 @@ class ProductController extends Controller
                         'price' => $product->price,
                         'path' => $product->image ? asset('storage/' . $product->image->path) : null,
                         'alt' => $product->image ? $product->image->alt : null,
+                        'description' => $product->{'description_' . session('language')},
                     ];
                 });
     
