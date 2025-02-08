@@ -84,45 +84,47 @@ class ProductController extends Controller
             return to_route('images.index');
         }
 
-        if(!in_array($category, Category::pluck('name_english')->toArray())) {
-            return to_route('images.index');
-        }
-
-        $language = session('language');
+        if(in_array($category, Category::pluck('name_english')->toArray()) || !in_array($category, Category::pluck('name_dutch')->toArray()) || !in_array($category, Category::pluck('name_german')->toArray())) {
+            $language = session('language');
         
-        $categories = Category::with('image')->get()->map(function ($category) use ($language) {
-            return [
-                'id' => $category->id,
-                'name' => $category->{'name_' . $language},
-                'path' => $category->image ? asset('storage/' . $category->image->path) : null,
-                'alt' => $category->image ? $category->image->alt : null,
-            ];
-        });
-
-        $popular = $this->popularProducts(4);
-
-        $products = Product::with('image')
-            ->whereHas('category', function ($query) use ($category) {
-                $query->where('name_english', $category);
-            })
-            ->get()
-            ->map(function ($product) {
+            $categories = Category::with('image')->get()->map(function ($category) use ($language) {
                 return [
-                    'id' => $product->id,
-                    'name' => $product->{'name_' . session('language')},
-                    'kcal' => $product->kcal,
-                    'price' => $product->price,
-                    'path' => $product->image ? asset('storage/' . $product->image->path) : null,
-                    'alt' => $product->image ? $product->image->alt : null,
+                    'id' => $category->id,
+                    'name' => $category->{'name_' . $language},
+                    'path' => $category->image ? asset('storage/' . $category->image->path) : null,
+                    'alt' => $category->image ? $category->image->alt : null,
                 ];
             });
-
-        return Inertia::render('ChooseOrder/ChooseOrder', [
-            'language' => session('language'),
-            'categories' => $categories,
-            'category' => $category,
-            'popular' => $popular,
-            'products' => $products,
-        ]);
+    
+            $popular = $this->popularProducts(4);
+    
+            $products = Product::with('image')
+                ->whereHas('category', function ($query) use ($category) {
+                    $query->where('name_english', $category)
+                        ->orWhere('name_dutch', $category)
+                        ->orWhere('name_german', $category);
+                })
+                ->get()
+                ->map(function ($product) {
+                    return [
+                        'id' => $product->id,
+                        'name' => $product->{'name_' . session('language')},
+                        'kcal' => $product->kcal,
+                        'price' => $product->price,
+                        'path' => $product->image ? asset('storage/' . $product->image->path) : null,
+                        'alt' => $product->image ? $product->image->alt : null,
+                    ];
+                });
+    
+            return Inertia::render('ChooseOrder/ChooseOrder', [
+                'language' => session('language'),
+                'categories' => $categories,
+                'category' => $category,
+                'popular' => $popular,
+                'products' => $products,
+            ]);
+        } else {
+            return to_route('images.index');
+        }
     }
 }
