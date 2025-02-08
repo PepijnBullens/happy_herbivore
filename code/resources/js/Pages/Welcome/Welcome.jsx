@@ -50,7 +50,6 @@ export default function Welcome({ images, language = null }) {
                     <ShoppingBag />
                     <LanguageDisplayer
                         language={overwrittenLanguage ?? language}
-                        overwrittenLanguage={overwrittenLanguage}
                         words={{
                             english: "Start Order",
                             dutch: "Bestelling Starten",
@@ -63,7 +62,6 @@ export default function Welcome({ images, language = null }) {
                     <PrimaryButton onClick={() => setOrderType("eatHere")}>
                         <LanguageDisplayer
                             language={overwrittenLanguage ?? language}
-                            overwrittenLanguage={overwrittenLanguage}
                             words={{
                                 english: "Eat Here",
                                 dutch: "Hier Eten",

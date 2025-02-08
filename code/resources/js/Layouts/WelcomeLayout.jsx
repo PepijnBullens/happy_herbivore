@@ -24,6 +24,17 @@ const sliderTransition = {
 };
 
 export default function WelcomeLayout({ children, images, setLanguage }) {
+    if (!images || images.length === 0) {
+        return (
+            <div className={styles.logo}>
+                <img
+                    src="/assets/logo/text-logo.png"
+                    alt="Happy Herbivore logo"
+                />
+            </div>
+        );
+    }
+
     const [[imageCount, direction], setImageCount] = useState([0, 0]);
 
     const activeImageIndex = wrap(0, images.length, imageCount);

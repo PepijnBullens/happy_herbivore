@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Image;
 use App\Models\Product;
+use App\Models\Category;
 
 class ImageSeeder extends Seeder
 {
@@ -46,15 +47,6 @@ class ImageSeeder extends Seeder
             'Citrus Cooler' => 'images/products/drinks/citrus-cooler.jpg',
         ];
 
-        $categories = [
-            'breakfast' => 'images/categories/breakfast/smoothie-bowl.jpg',
-            'lunch-dinner' => 'images/categories/lunch-dinner/protein-packed-bowl.jpg',
-            'sides' => 'images/categories/sides/sweet-potato-wedges.jpg',
-            'snacks' => 'images/categories/snacks/roasted-chickpeas.jpg',
-            'dips' => 'images/categories/dips/classic-hummus.jpg',
-            'drinks' => 'images/categories/drinks/green-glow-smoothie.jpg',
-        ];
-
         $productImages = [];
         foreach ($products as $productName => $imagePath) {
             $product = Product::where('name_english', $productName)->first();
@@ -68,10 +60,22 @@ class ImageSeeder extends Seeder
             }
         }
 
+        Image::insert($productImages);
+
+        $categories = [
+            'Breakfast' => 'images/categories/breakfast/smoothie-bowl.png',
+            'Lunch & Dinner' => 'images/categories/lunch-dinner/protein-packed-bowl.png',
+            'Sides' => 'images/categories/sides/sweet-potato-wedges.png',
+            'Snacks' => 'images/categories/snacks/roasted-chickpeas.png',
+            'Dips' => 'images/categories/dips/classic-hummus.png',
+            'Drinks' => 'images/categories/drinks/green-glow-smoothie.png',
+        ];
+
         $categoryImages = [];
         foreach ($categories as $categoryName => $imagePath) {
-            $category = Product::where('name_english', $categoryName)->first();
-            if ($category) {
+            $category = Category::where('name_english', $categoryName)->first();
+
+            if($category) {
                 $categoryImages[] = [
                     'imageable_id' => $category->id,
                     'imageable_type' => 'App\Models\Category',
@@ -81,8 +85,6 @@ class ImageSeeder extends Seeder
             }
         }
 
-        foreach ($productImages as $image) {
-            Image::create($image);
-        }
+        Image::insert($categoryImages);
     }
 }

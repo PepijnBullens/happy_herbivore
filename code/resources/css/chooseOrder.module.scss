@@ -1,0 +1,246 @@
+@use "./globals";
+
+main {
+    display: flex;
+    width: 100%;
+    height: 100%;
+
+    aside {
+        width: 30%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        gap: 4rem;
+
+        .aside__header {
+            width: 100%;
+            display: flex;
+            flex-flow: column;
+            align-items: center;
+            background-color: globals.$dark-green;
+            border-radius: 0 0 10px 0;
+            height: 80%;
+
+            .aside__header__upper {
+                width: 100%;
+                padding: 1rem 1rem;
+                display: flex;
+                align-items: center;
+                color: globals.$white;
+                cursor: pointer;
+                position: relative;
+
+                &::after {
+                    content: "";
+                    width: 80%;
+                    bottom: 0;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    position: absolute;
+                    height: 1px;
+                    background-color: globals.$white;
+                    border-radius: 10px;
+                }
+
+                &:hover .aside__header__upper__wrapper {
+                    svg {
+                        transform: translateX(-1rem) translateY(-0.5px);
+                    }
+                    p {
+                        transform: translateX(-1rem);
+                    }
+                }
+
+                .aside__header__upper__wrapper {
+                    overflow: hidden;
+                    display: flex;
+                    align-items: center;
+
+                    svg {
+                        width: 1rem;
+                        transition: all 0.3s;
+                        transform: translateY(-0.5px);
+                    }
+
+                    p {
+                        font-family: renos;
+                        font-size: 0.7rem;
+                        transition: all 0.3s;
+                    }
+                }
+            }
+
+            .aside__header__content {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding-bottom: 2rem;
+                overflow: auto;
+
+                &::-webkit-scrollbar {
+                    display: none;
+                }
+
+                .category {
+                    width: 80%;
+                    border-radius: 5px;
+                    position: relative;
+                    background-color: globals.$white;
+                    margin-top: 60px;
+                    padding-top: 1rem;
+                    cursor: pointer;
+                    text-decoration: none;
+
+                    &:hover {
+                        img {
+                            width: calc(80% + 6px);
+                        }
+                    }
+
+                    img {
+                        position: absolute;
+                        top: 0;
+                        left: 50%;
+                        transform: translate(-50%, -60%);
+                        width: 80%;
+                        object-fit: contain;
+                        transition: all 0.1s;
+                    }
+
+                    .category__name {
+                        width: 100%;
+                        padding: 1rem 0.5rem;
+                        display: flex;
+                        justify-content: center;
+                        align-items: flex-end;
+
+                        h2 {
+                            text-align: center;
+                            font-size: 0.6rem;
+                            color: globals.$dark-green;
+                            font-family: renos;
+                            word-wrap: break-word;
+                            transition: all 0.1s;
+                        }
+                    }
+                }
+            }
+        }
+
+        .aside__footer {
+            width: 100%;
+            background-color: globals.$dark-green;
+            border-radius: 0 10px 0 0;
+            position: relative;
+            padding: 2rem 1rem;
+            padding-top: 2.5rem;
+
+            button {
+                position: absolute;
+                top: 0;
+                left: 50%;
+                transform: translate(-50%, -60%);
+            }
+
+            h2 {
+                width: 100%;
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: globals.$white;
+                font-size: 1.2rem;
+            }
+        }
+    }
+
+    section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 70%;
+
+        .logo__header {
+            width: calc(100% - 2rem);
+            height: 80px;
+            background-color: globals.$dark-green;
+            border-radius: 0 0 10px 10px;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+            }
+        }
+
+        .content__container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem;
+            gap: 1rem;
+            overflow: auto;
+            &::-webkit-scrollbar {
+                display: none;
+            }
+
+            .product__title {
+                width: 100%;
+                font-family: renos;
+                color: globals.$dark-green;
+                margin-top: 2rem;
+            }
+
+            .content {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1rem;
+
+                .product {
+                    display: flex;
+                    flex-direction: column;
+                    border-radius: 10px;
+                    overflow: hidden;
+                    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+                    cursor: pointer;
+
+                    img {
+                        width: 100%;
+                        object-fit: cover;
+                    }
+
+                    .product__info {
+                        display: flex;
+                        flex-direction: column;
+                        padding: 0.5rem;
+                        gap: 0.2rem;
+
+                        h2 {
+                            margin: 0.2rem 0;
+                            color: globals.$dark-green;
+                            font-size: 0.8rem;
+                            width: 100%;
+                            white-space: nowrap;
+                            text-overflow: ellipsis;
+                            overflow: hidden;
+                        }
+
+                        .product__info__lower {
+                            width: 100%;
+                            display: flex;
+                            justify-content: space-between;
+
+                            p {
+                                font-size: 0.7rem;
+                                color: globals.$dark-green;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -17,12 +17,11 @@ class OrderSeeder extends Seeder
     public function run(): void
     {
         $order = Order::create([
-            'pickup_number' => 1, // No leading zero in PHP integers
+            'pickup_number' => 1,
         ]);
 
-        // Create related order status
         OrderStatus::create([
-            'order_id' => $order->id, // Use the created order's ID
+            'order_id' => $order->id,
             'order_started' => now(),
             'order_successful' => null,
             'order_preparing' => null,
@@ -45,5 +44,25 @@ class OrderSeeder extends Seeder
                 ]) : null),
             ]);
         }
+
+        $order = Order::create([
+            'pickup_number' => 2,
+        ]);
+
+        // Create related order status
+        OrderStatus::create([
+            'order_id' => $order->id,
+            'order_started' => now(),
+            'order_successful' => null,
+            'order_preparing' => null,
+            'order_ready' => null,
+            'order_picked_up' => null,
+        ]);
+
+        OrderContent::create([
+            'order_id' => $order->id,
+            'product_id' => Product::where('name_english', 'Roasted Chickpeas')->first()->id,
+            'product_quantity' => 1000,            
+        ]);
     }
 }
