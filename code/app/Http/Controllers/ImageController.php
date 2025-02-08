@@ -8,17 +8,17 @@ use App\Http\Controllers\ProductController;
 
 class ImageController extends Controller
 {
-    public function popularProductImages() {
+    public function popularProductImages($amount) {
         $productController = new ProductController();
-        $products = $productController->popularProducts(5);
+        $products = $productController->popularProducts($amount);
 
         $images = [];
     
         foreach ($products as $product) {
-            if ($product->image) {
+            if ($product['path']) {
                 $images[] = [
-                    'path' => $product->image->path,
-                    'alt' => $product->image->alt,
+                    'path' => $product['path'],
+                    'alt' => $product['alt'],
                 ];
             }
         }
@@ -49,7 +49,7 @@ class ImageController extends Controller
 
         return Inertia::render('Welcome/Welcome', [
             'language' => session('language', 'english'),
-            'images' => $this->popularProductImages(),
+            'images' => $this->popularProductImages(5),
         ]);
     }
     
@@ -60,7 +60,7 @@ class ImageController extends Controller
         
         return Inertia::render('Welcome/OrderType', [
             'language' => session('language', 'english'),
-            'images' => $this->popularProductImages(),
+            'images' => $this->popularProductImages(5),
         ]);
     }
 }

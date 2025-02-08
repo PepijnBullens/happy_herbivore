@@ -65,7 +65,7 @@ export default function WelcomeLayout({ children, images, setLanguage }) {
                         <motion.div
                             key={activeImageIndex}
                             style={{
-                                backgroundImage: `url(storage/${images[activeImageIndex].path}`,
+                                backgroundImage: `url(${images[activeImageIndex].path}`,
                             }}
                             custom={direction}
                             variants={sliderVariants}
