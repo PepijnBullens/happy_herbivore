@@ -60,7 +60,7 @@ export default function Welcome({ images, language = null }) {
             ) : currentPage === 2 ? (
                 <>
                     <PrimaryButton
-                        onClick={() => setOrderType("eatHere")}
+                        onClick={() => setOrderType("Eat Here")}
                         width={40}
                     >
                         <LanguageDisplayer
@@ -73,7 +73,7 @@ export default function Welcome({ images, language = null }) {
                         />
                     </PrimaryButton>
                     <PrimaryButton
-                        onClick={() => setOrderType("takeAway")}
+                        onClick={() => setOrderType("Take Away")}
                         width={40}
                     >
                         <LanguageDisplayer

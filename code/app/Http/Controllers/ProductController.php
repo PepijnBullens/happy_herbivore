@@ -65,7 +65,7 @@ class ProductController extends Controller
 
     public function setOrderType($orderType)
     {
-        if (!in_array($orderType, ['eatHere', 'takeAway'])) {
+        if (!in_array($orderType, ['Eat Here', 'Take Away'])) {
             return response()->json(['error' => 'Invalid order type']);
         }
 
@@ -128,8 +128,22 @@ class ProductController extends Controller
             return to_route('images.index');
         }
 
+
         if (in_array($category, Category::pluck('name_english')->toArray()) || in_array($category, Category::pluck('name_dutch')->toArray()) || in_array($category, Category::pluck('name_german')->toArray())) {
             $language = session('language', 'english');
+
+            if (!in_array($category, Category::pluck('name_' . $language)->toArray())) {
+                $categoryInstance = Category::where('name_english', $category)
+                    ->orWhere('name_dutch', $category)
+                    ->orWhere('name_german', $category)
+                    ->first();
+
+                if ($categoryInstance) {
+                    $category = $categoryInstance->{'name_' . $language};
+                } else {
+                    return to_route('images.index');
+                }
+            }
 
             $categories = Category::with('image')->get()->map(function ($category) use ($language) {
                 return [
@@ -162,7 +176,7 @@ class ProductController extends Controller
                 });
 
             return Inertia::render('ChooseOrder/ChooseOrder', [
-                'language' => session('language', 'english'),
+                'language' => $language,
                 'categories' => $categories,
                 'category' => $category,
                 'popular' => $popular,
@@ -180,16 +194,53 @@ class ProductController extends Controller
         }
 
         $order = session('order', []);
+        $language = session('language', 'english');
+        $orderType = session('orderType') === 'Eat Here' ? ($language === 'english' ? 'Eat Here' : ($language === 'dutch' ? 'Hier Eten' : 'Hier Essen')) : ($language === 'english' ? 'Take Away' : ($language === 'dutch' ? 'Afhalen' : 'Abheben'));
+        
+        $orderWithInformation = [];
+        foreach($order as $id => $quantity) {
+            $product = Product::with('image')->find($id);
 
-        if(count($order) === 0) {
-            return to_route('images.index');
+            if($product) {
+                $orderWithInformation[] = [
+                    'id' => $product->id,
+                    'name' => $product->{'name_' . session('language', 'english')},
+                    'totalPrice' => $product->price,
+                    'path' => $product->image ? asset('storage/' . $product->image->path) : null,
+                    'alt' => $product->image ? $product->image->alt : null,
+                    'quantity' => $quantity["quantity"],
+                ];
+            }
         }
 
         return Inertia::render('YourOrder/YourOrder', [
             'language' => session('language', 'english'),
-            'order' => $order,
+            'order' => $orderWithInformation,
             'totalPrice' => $this->calculateTotalPrice(),
+            'orderType' => $orderType,
         ]);
+    }
+
+    public function updateQuantity($id, $quantity) {
+        $product = Product::find($id);
+
+        if(!$product) {
+            return response()->json(['error' => 'Product not found']);
+        }
+
+        $order = session('order', []);
+
+        if(array_key_exists($id, $order)) {
+            if($quantity == 0) {
+                unset($order[$id]);
+            } else {
+                $order[$id]['quantity'] = $quantity;
+            }
+        }
+
+        session(['order' => $order]);
+
+        return response()->json(['order' => $order]);
     }
 
     public function payment()

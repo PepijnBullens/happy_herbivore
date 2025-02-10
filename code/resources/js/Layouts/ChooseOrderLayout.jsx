@@ -7,12 +7,12 @@ import LanguageDisplayer from "@/Components/LanguageDisplayer";
 import ChooseOrderModal from "@/Components/ChooseOrderModal";
 import OrderChooser from "@/Components/OrderChooser";
 import CompactLanguageSelector from "../Components/CompactLanguageSelector";
+import DisplayMoney from "@/Components/DisplayMoney";
 
 export default function ChooseOrderLayout({
     children,
     language,
     categories,
-    order,
     inspectedProduct,
     setInspectedProduct,
     totalPrice,
@@ -61,7 +61,7 @@ export default function ChooseOrderLayout({
                     </div>
                     <div className={styles.aside__footer}>
                         <Link href="/your-order">
-                            <PrimaryButton onClick={() => order} width={80}>
+                            <PrimaryButton width={80}>
                                 <LanguageDisplayer
                                     language={language}
                                     words={{
@@ -73,11 +73,7 @@ export default function ChooseOrderLayout({
                             </PrimaryButton>
                         </Link>
                         <h2>
-                            €
-                            {total.toLocaleString(undefined, {
-                                minimumFractionDigits: 2,
-                                maximumFractionDigits: 2,
-                            })}
+                            <DisplayMoney amount={total} />
                         </h2>
                     </div>
                 </aside>

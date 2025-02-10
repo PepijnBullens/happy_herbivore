@@ -1,5 +1,6 @@
 import styles from "../../css/Components/CompactLanguageSelector.module.scss";
 import { useState } from "react";
+import { router } from "@inertiajs/react";
 
 export default function CompactLanguageSelector({ language = null }) {
     const setLanguage = (language) => {
@@ -10,7 +11,7 @@ export default function CompactLanguageSelector({ language = null }) {
             .then((data) => {
                 if (data.language) {
                     setCurrentlyActive(data.language);
-                    window.location.reload();
+                    router.reload();
                 } else if (data.error) {
                     console.error(data.error);
                 }

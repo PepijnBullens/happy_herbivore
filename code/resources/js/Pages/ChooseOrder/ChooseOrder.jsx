@@ -1,6 +1,8 @@
 import ChooseOrderLayout from "@/Layouts/ChooseOrderLayout";
 import styles from "../../../css/chooseOrder.module.scss";
 import { useState } from "react";
+import LanguageDisplayer from "@/Components/LanguageDisplayer";
+import DisplayMoney from "@/Components/DisplayMoney";
 
 export default function ChooseOrder({
     language,
@@ -10,10 +12,6 @@ export default function ChooseOrder({
     products,
     totalPrice,
 }) {
-    const order = () => {
-        console.log("order");
-    };
-
     const [inspectedProduct, setInspectedProduct] = useState(null);
 
     return (
@@ -21,7 +19,6 @@ export default function ChooseOrder({
             language={language}
             categories={categories}
             popular={popular}
-            order={order}
             inspectedProduct={inspectedProduct}
             setInspectedProduct={setInspectedProduct}
             totalPrice={totalPrice}
@@ -39,7 +36,9 @@ export default function ChooseOrder({
                         <div className={styles.product__info}>
                             <h2>{product.name}</h2>
                             <div className={styles.product__info__lower}>
-                                <p>€{product.price}</p>
+                                <p>
+                                    <DisplayMoney amount={product.price} />
+                                </p>
                                 <p>{product.kcal} kcal</p>
                             </div>
                         </div>
@@ -47,7 +46,17 @@ export default function ChooseOrder({
                 ))}
             </div>
 
-            <h2 className={styles.product__title}>- Popular</h2>
+            <h2 className={styles.product__title}>
+                -{" "}
+                <LanguageDisplayer
+                    language={language}
+                    words={{
+                        english: "Popular",
+                        dutch: "Populair",
+                        german: "Beliebt",
+                    }}
+                />
+            </h2>
 
             <div className={styles.content}>
                 {popular.map((product, index) => (
@@ -60,7 +69,9 @@ export default function ChooseOrder({
                         <div className={styles.product__info}>
                             <h2>{product.name}</h2>
                             <div className={styles.product__info__lower}>
-                                <p>€{product.price}</p>
+                                <p>
+                                    <DisplayMoney amount={product.price} />
+                                </p>
                                 <p>{product.kcal} kcal</p>
                             </div>
                         </div>

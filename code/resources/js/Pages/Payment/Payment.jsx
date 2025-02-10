@@ -6,6 +6,7 @@ import FinishingOrderLayout from "../../Layouts/FinishingOrderLayout";
 export default function Payment({ language }) {
     return (
         <FinishingOrderLayout
+            back={"/your-order"}
             footer={
                 <PrimaryButton>
                     <LanguageDisplayer
@@ -19,7 +20,11 @@ export default function Payment({ language }) {
                 </PrimaryButton>
             }
         >
-            <img src="/assets/terminal.svg" alt="Image of payment terminal" />
+            <img
+                className={styles.terminal}
+                src="/assets/terminal.svg"
+                alt="Image of payment terminal"
+            />
         </FinishingOrderLayout>
     );
 }
