@@ -8,11 +8,14 @@ use App\Models\Category;
 use App\Models\OrderContent;
 use App\Models\Product;
 use App\Models\Image;
+use App\Models\Order;
+use App\Models\OrderStatus;
 
 class ProductController extends Controller
 {
     public function popularProducts($amount)
     {
+        // Get the best selling products
         $bestSellingProducts = OrderContent::select('product_id', OrderContent::raw('SUM(product_quantity) as total_quantity'))
             ->groupBy('product_id')
             ->orderByDesc('total_quantity')
@@ -37,6 +40,7 @@ class ProductController extends Controller
                 ];
             });
 
+        // If there are not enough best selling products, add random products
         if ($products->count() < $amount) {
             $remainingCount = $amount - $products->count();
             $randomProducts = Product::with('image')
@@ -82,23 +86,6 @@ class ProductController extends Controller
         return to_route('images.index');
     }
 
-    private function calculateTotalPrice()
-    {
-        $order = session('order', []);
-
-        $totalPrice = 0;
-
-        foreach ($order as $id => $orderItem) {
-            $product = Product::find($id);
-
-            if ($product) {
-                $totalPrice += $product->price * $orderItem['quantity'];
-            }
-        }
-
-        return $totalPrice;
-    }
-
     public function addToOrder($id, $quantity = 1)
     {
         $product = Product::find($id);
@@ -107,8 +94,9 @@ class ProductController extends Controller
             return response()->json(['error' => 'Product not found']);
         }
 
-        $order = session('order', []);
+        $order = session('order.orderContent', []);
 
+        // Check if the product is already in the order
         if (array_key_exists($id, $order)) {
             $order[$id]['quantity'] += $quantity;
         } else {
@@ -117,21 +105,24 @@ class ProductController extends Controller
             ];
         }
 
-        session(['order' => $order]);
+        session(['order.orderContent' => $order]);
 
-        return response()->json(['order' => $order, 'totalPrice' => $this->calculateTotalPrice()]);
+        $orderController = new OrderController();
+        return response()->json(['order' => $order, 'totalPrice' => $orderController->calculateTotalPrice()]);
     }
 
     public function chooseOrder($category)
     {
+        // Check if there is an order type in the session
         if (null === session('orderType')) {
             return to_route('images.index');
         }
 
-
+        // Check if the category is in the database
         if (in_array($category, Category::pluck('name_english')->toArray()) || in_array($category, Category::pluck('name_dutch')->toArray()) || in_array($category, Category::pluck('name_german')->toArray())) {
             $language = session('language', 'english');
 
+            // Check if the category is in the database
             if (!in_array($category, Category::pluck('name_' . $language)->toArray())) {
                 $categoryInstance = Category::where('name_english', $category)
                     ->orWhere('name_dutch', $category)
@@ -145,6 +136,27 @@ class ProductController extends Controller
                 }
             }
 
+
+            // Create a new order if there is no order in the session
+            if(!session('order')) {
+                $order = Order::create([
+                    'pickup_number' => Order::max('pickup_number') > 99 ? 1 : Order::max('pickup_number') + 1,
+                ]);
+
+                $status = orderStatus::create([
+                    'order_id' => $order->id,
+                    'order_started' => now(),
+                ]);
+
+                session(['order' => [
+                    'orderId' => $order->id,
+                    'orderStatusId' => $status->id,
+                    'orderContent' => [],
+                    'orderStatus' => 'order_started',
+                ]]);
+            }
+
+            // Get all categories
             $categories = Category::with('image')->get()->map(function ($category) use ($language) {
                 return [
                     'id' => $category->id,
@@ -156,6 +168,7 @@ class ProductController extends Controller
 
             $popular = $this->popularProducts(4);
 
+            // Get all products from the category
             $products = Product::with('image')
                 ->whereHas('category', function ($query) use ($category) {
                     $query->where('name_english', $category)
@@ -175,50 +188,19 @@ class ProductController extends Controller
                     ];
                 });
 
+            $orderController = new OrderController();
+
             return Inertia::render('ChooseOrder/ChooseOrder', [
                 'language' => $language,
                 'categories' => $categories,
                 'category' => $category,
                 'popular' => $popular,
                 'products' => $products,
-                'totalPrice' => $this->calculateTotalPrice(),
+                'totalPrice' => $orderController->calculateTotalPrice(),
             ]);
         } else {
             return to_route('images.index');
         }
-    }
-
-    public function yourOrder() {
-        if(null === session('orderType')) {
-            return to_route('images.index');
-        }
-
-        $order = session('order', []);
-        $language = session('language', 'english');
-        $orderType = session('orderType') === 'Eat Here' ? ($language === 'english' ? 'Eat Here' : ($language === 'dutch' ? 'Hier Eten' : 'Hier Essen')) : ($language === 'english' ? 'Take Away' : ($language === 'dutch' ? 'Afhalen' : 'Abheben'));
-        
-        $orderWithInformation = [];
-        foreach($order as $id => $quantity) {
-            $product = Product::with('image')->find($id);
-
-            if($product) {
-                $orderWithInformation[] = [
-                    'id' => $product->id,
-                    'name' => $product->{'name_' . session('language', 'english')},
-                    'totalPrice' => $product->price,
-                    'path' => $product->image ? asset('storage/' . $product->image->path) : null,
-                    'alt' => $product->image ? $product->image->alt : null,
-                    'quantity' => $quantity["quantity"],
-                ];
-            }
-        }
-
-        return Inertia::render('YourOrder/YourOrder', [
-            'language' => session('language', 'english'),
-            'order' => $orderWithInformation,
-            'totalPrice' => $this->calculateTotalPrice(),
-            'orderType' => $orderType,
-        ]);
     }
 
     public function updateQuantity($id, $quantity) {
@@ -228,25 +210,19 @@ class ProductController extends Controller
             return response()->json(['error' => 'Product not found']);
         }
 
-        $order = session('order', []);
+        $order = session('order.orderContent', []);
 
+        // Check if the product is already in the order
         if(array_key_exists($id, $order)) {
             if($quantity == 0) {
-                unset($order[$id]);
+                unset($order['orderContent'][$id]);
             } else {
-                $order[$id]['quantity'] = $quantity;
+                $order['orderContent'][$id]['quantity'] = $quantity;
             }
         }
 
         session(['order' => $order]);
 
         return response()->json(['order' => $order]);
-    }
-
-    public function payment()
-    {
-        return Inertia::render('Payment/Payment', [
-            'language' => session('language', 'english'),
-        ]);
     }
 }

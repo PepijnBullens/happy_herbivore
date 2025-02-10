@@ -1,0 +1,42 @@
+import styles from "../../../css/finishedOrder.module.scss";
+import LanguageDisplayer from "@/Components/LanguageDisplayer";
+import PrimaryButton from "@/Components/PrimaryButton";
+import FinishingOrderLayout from "../../Layouts/FinishingOrderLayout";
+import { useEffect } from "react";
+import { router } from "@inertiajs/react";
+
+export default function FinishedOrder({ language, pickupNumber }) {
+    useEffect(() => {
+        setTimeout(() => {
+            router.visit("/");
+        }, 10000);
+    }, []);
+
+    return (
+        <FinishingOrderLayout
+            footer={
+                <PrimaryButton onClick={() => router.visit("/")}>
+                    <LanguageDisplayer
+                        language={language}
+                        words={{
+                            dutch: "voltooien",
+                            english: "Finish",
+                            german: "Fertig",
+                        }}
+                    />
+                </PrimaryButton>
+            }
+        >
+            <div className={styles.container}>
+                <h2 className={styles.pickup__text}>
+                    Thank you for ordering at Happy Herbivore! <br />
+                    <br />
+                    <span>Your pick-up number is:</span>
+                </h2>
+                <h2 className={styles.pickup__number}>
+                    #{pickupNumber.toString().padStart(2, "0")}
+                </h2>
+            </div>
+        </FinishingOrderLayout>
+    );
+}

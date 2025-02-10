@@ -1,0 +1,29 @@
+@use "./globals";
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .pickup__text {
+        font-size: 1.2rem;
+        font-weight: 400;
+        color: globals.$white;
+        margin-bottom: 1rem;
+        text-align: center;
+        font-family: renos;
+
+        span {
+            font-size: 1.1rem;
+        }
+    }
+
+    .pickup__number {
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: globals.$white;
+        margin-bottom: 1rem;
+        font-family: renos;
+    }
+}

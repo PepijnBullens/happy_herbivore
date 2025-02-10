@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-    protected $fillable = ['pickup_number'];
+    protected $fillable = ['id', 'pickup_number'];
 
     public static function rules()
     {

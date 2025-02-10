@@ -26,6 +26,7 @@ class ImageController extends Controller
         return $images;
     }
 
+    // Function to determine the category based on the current time
     public function categoryBasedOnTime() {
         $categories = [
             'Breakfast' => ['06:00', '11:00'],
@@ -60,15 +61,5 @@ class ImageController extends Controller
             'images' => $this->popularProductImages(5),
         ]);
     }
-    
-    public function orderType() {
-        if(null !== session('orderType')) {
-            return to_route('products.chooseOrder');
-        }
-        
-        return Inertia::render('Welcome/OrderType', [
-            'language' => session('language', 'english'),
-            'images' => $this->popularProductImages(5),
-        ]);
-    }
+
 }

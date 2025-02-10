@@ -2,8 +2,16 @@ import styles from "../../../css/payment.module.scss";
 import LanguageDisplayer from "@/Components/LanguageDisplayer";
 import PrimaryButton from "@/Components/PrimaryButton";
 import FinishingOrderLayout from "../../Layouts/FinishingOrderLayout";
+import { useEffect } from "react";
+import { router } from "@inertiajs/react";
 
 export default function Payment({ language }) {
+    useEffect(() => {
+        setTimeout(() => {
+            router.visit("/finished-order");
+        }, 3000);
+    }, []);
+
     return (
         <FinishingOrderLayout
             back={"/your-order"}
@@ -17,6 +25,7 @@ export default function Payment({ language }) {
                             german: "Verarbeitung",
                         }}
                     />
+                    <div className={styles.loader}></div>
                 </PrimaryButton>
             }
         >
