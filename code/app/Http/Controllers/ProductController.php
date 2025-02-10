@@ -128,7 +128,7 @@ class ProductController extends Controller
             return to_route('images.index');
         }
 
-        if (in_array($category, Category::pluck('name_english')->toArray()) || !in_array($category, Category::pluck('name_dutch')->toArray()) || !in_array($category, Category::pluck('name_german')->toArray())) {
+        if (in_array($category, Category::pluck('name_english')->toArray()) || in_array($category, Category::pluck('name_dutch')->toArray()) || in_array($category, Category::pluck('name_german')->toArray())) {
             $language = session('language');
 
             $categories = Category::with('image')->get()->map(function ($category) use ($language) {
