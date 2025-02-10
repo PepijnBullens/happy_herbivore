@@ -11,17 +11,18 @@ use App\Models\Image;
 
 class ProductController extends Controller
 {
-    public function popularProducts($amount) {
+    public function popularProducts($amount)
+    {
         $bestSellingProducts = OrderContent::select('product_id', OrderContent::raw('SUM(product_quantity) as total_quantity'))
             ->groupBy('product_id')
             ->orderByDesc('total_quantity')
             ->limit($amount)
             ->get();
-    
+
         $products = Product::with('image')
             ->whereIn('id', $bestSellingProducts->pluck('product_id'))
             ->get()
-            ->sortByDesc(function($product) use ($bestSellingProducts) {
+            ->sortByDesc(function ($product) use ($bestSellingProducts) {
                 return $bestSellingProducts->firstWhere('product_id', $product->id)->total_quantity ?? 0;
             })->values()
             ->map(function ($product) {
@@ -35,7 +36,7 @@ class ProductController extends Controller
                     'description' => $product->{'description_' . session('language')},
                 ];
             });
-    
+
         if ($products->count() < $amount) {
             $remainingCount = $amount - $products->count();
             $randomProducts = Product::with('image')
@@ -43,17 +44,17 @@ class ProductController extends Controller
                 ->inRandomOrder()
                 ->limit($remainingCount)
                 ->get();
-            
+
             $products = $products->merge($randomProducts);
         }
-    
+
         return $products;
     }
-    
+
 
     public function setLanguage($language)
     {
-        if(!in_array($language, ['english', 'dutch', 'german'])) {
+        if (!in_array($language, ['english', 'dutch', 'german'])) {
             return response()->json(['error' => 'Invalid language']);
         }
 
@@ -64,7 +65,7 @@ class ProductController extends Controller
 
     public function setOrderType($orderType)
     {
-        if(!in_array($orderType, ['eatHere', 'takeAway'])) {
+        if (!in_array($orderType, ['eatHere', 'takeAway'])) {
             return response()->json(['error' => 'Invalid order type']);
         }
 
@@ -81,7 +82,8 @@ class ProductController extends Controller
         return to_route('images.index');
     }
 
-    private function calculateTotalPrice() {
+    private function calculateTotalPrice()
+    {
         $order = session('order', []);
 
         $totalPrice = 0;
@@ -97,7 +99,8 @@ class ProductController extends Controller
         return $totalPrice;
     }
 
-    public function addToOrder($id, $quantity = 1) {
+    public function addToOrder($id, $quantity = 1)
+    {
         $product = Product::find($id);
 
         if (!$product) {
@@ -119,14 +122,15 @@ class ProductController extends Controller
         return response()->json(['order' => $order, 'totalPrice' => $this->calculateTotalPrice()]);
     }
 
-    public function chooseOrder($category) {
+    public function chooseOrder($category)
+    {
         if (null === session('orderType')) {
             return to_route('images.index');
         }
 
-        if(in_array($category, Category::pluck('name_english')->toArray()) || !in_array($category, Category::pluck('name_dutch')->toArray()) || !in_array($category, Category::pluck('name_german')->toArray())) {
+        if (in_array($category, Category::pluck('name_english')->toArray()) || !in_array($category, Category::pluck('name_dutch')->toArray()) || !in_array($category, Category::pluck('name_german')->toArray())) {
             $language = session('language');
-        
+
             $categories = Category::with('image')->get()->map(function ($category) use ($language) {
                 return [
                     'id' => $category->id,
@@ -135,9 +139,9 @@ class ProductController extends Controller
                     'alt' => $category->image ? $category->image->alt : null,
                 ];
             });
-    
+
             $popular = $this->popularProducts(4);
-    
+
             $products = Product::with('image')
                 ->whereHas('category', function ($query) use ($category) {
                     $query->where('name_english', $category)
@@ -156,7 +160,7 @@ class ProductController extends Controller
                         'description' => $product->{'description_' . session('language')},
                     ];
                 });
-    
+
             return Inertia::render('ChooseOrder/ChooseOrder', [
                 'language' => session('language'),
                 'categories' => $categories,
@@ -168,5 +172,12 @@ class ProductController extends Controller
         } else {
             return to_route('images.index');
         }
+    }
+
+    public function payment()
+    {
+        return Inertia::render('Payment/Payment', [
+            'language' => session('language'),
+        ]);
     }
 }

@@ -15,6 +15,8 @@ Route::get('/choose-order/{category}', [ProductController::class, 'chooseOrder']
 
 Route::get('/add-to-order/{id}/{quantity}', [ProductController::class, 'addToOrder'])->name('products.addToOrder');
 
+Route::get('/payment', [ProductController::class, 'payment'])->name('products.payment');
+
 Route::get('/reset-order', [ProductController::class, 'resetOrder'])->name('products.resetOrder');
 Route::get('/set-language/{language}', [ProductController::class, 'setLanguage'])->name('products.setLanguage');
 Route::get('/set-order-type/{orderType}', [ProductController::class, 'setOrderType'])->name('products.setOrderType');
