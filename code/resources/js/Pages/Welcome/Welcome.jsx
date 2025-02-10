@@ -46,7 +46,7 @@ export default function Welcome({ images, language = null }) {
     return (
         <WelcomeLayout images={images} setLanguage={setLanguage}>
             {currentPage === 1 ? (
-                <PrimaryButton onClick={() => setCurrentPage(2)}>
+                <PrimaryButton onClick={() => setCurrentPage(2)} width={60}>
                     <ShoppingBag />
                     <LanguageDisplayer
                         language={overwrittenLanguage ?? language}
@@ -59,7 +59,10 @@ export default function Welcome({ images, language = null }) {
                 </PrimaryButton>
             ) : currentPage === 2 ? (
                 <>
-                    <PrimaryButton onClick={() => setOrderType("eatHere")}>
+                    <PrimaryButton
+                        onClick={() => setOrderType("eatHere")}
+                        width={40}
+                    >
                         <LanguageDisplayer
                             language={overwrittenLanguage ?? language}
                             words={{
@@ -69,7 +72,10 @@ export default function Welcome({ images, language = null }) {
                             }}
                         />
                     </PrimaryButton>
-                    <PrimaryButton onClick={() => setOrderType("takeAway")}>
+                    <PrimaryButton
+                        onClick={() => setOrderType("takeAway")}
+                        width={40}
+                    >
                         <LanguageDisplayer
                             language={overwrittenLanguage ?? language}
                             overwrittenLanguage={overwrittenLanguage}

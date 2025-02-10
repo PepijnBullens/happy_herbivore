@@ -1,6 +1,6 @@
 import { router, Link } from "@inertiajs/react";
-import { useEffect, useState } from "react";
-import styles from "../../css/chooseOrder.module.scss";
+import { useState } from "react";
+import styles from "../../css/Layouts/chooseOrderLayout.module.scss";
 import PrimaryButton from "@/Components/PrimaryButton";
 import { ChevronLeft } from "lucide-react";
 import LanguageDisplayer from "@/Components/LanguageDisplayer";
@@ -61,7 +61,7 @@ export default function ChooseOrderLayout({
                         </div>
                     </div>
                     <div className={styles.aside__footer}>
-                        <PrimaryButton onClick={() => order}>
+                        <PrimaryButton onClick={() => order} width={80}>
                             <LanguageDisplayer
                                 language={language}
                                 words={{

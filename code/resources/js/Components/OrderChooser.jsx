@@ -57,21 +57,6 @@ export default function OrderChooser({
                                 <p>+</p>
                             </button>
                         </div>
-                        <div className={styles.price__kcal}>
-                            <PrimaryButton>
-                                €
-                                {(product.price * quantity).toLocaleString(
-                                    undefined,
-                                    {
-                                        minimumFractionDigits: 2,
-                                        maximumFractionDigits: 2,
-                                    }
-                                )}
-                            </PrimaryButton>
-                            <PrimaryButton>
-                                {product.kcal * quantity} kcal
-                            </PrimaryButton>
-                        </div>
                     </div>
                 </div>
             </div>
