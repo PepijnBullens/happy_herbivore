@@ -84,6 +84,13 @@ class OrderController extends Controller
                 return to_route('images.index');
             }
 
+            foreach(session('order.orderContent') as $productId => $quantity) {
+                $order->orderContents()->create([
+                    'product_id' => $productId,
+                    'product_quantity' => $quantity['quantity'],
+                ]);
+            }
+
             $orderStatus = OrderStatus::where('order_id', $order->id)->where('id', session('order.orderStatusId'))->first();
 
             if(!$orderStatus) {
