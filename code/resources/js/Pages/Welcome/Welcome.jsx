@@ -53,7 +53,7 @@ export default function Welcome({ images, language = null }) {
                         words={{
                             english: "Start Order",
                             dutch: "Bestelling Starten",
-                            german: "Startreihenfolge",
+                            german: "Bestellung",
                         }}
                     />
                 </PrimaryButton>
