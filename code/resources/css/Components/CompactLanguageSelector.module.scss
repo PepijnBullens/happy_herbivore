@@ -1,15 +1,19 @@
 @use "../globals";
 
 .language__selector {
-    height: 100%;
     display: flex;
-    justify-content: center;
     align-items: center;
     flex-direction: column;
     position: absolute;
-    right: 0;
+    right: 20px;
     top: 50%;
-    transform: translateY(-50%);
+    transform: translateY(-20px);
+    gap: 10px;
+    box-sizing: content-box;
+    background-color: globals.$white;
+    padding: 0.5rem;
+    z-index: 2;
+    border-radius: 5px;
 
     &:hover {
         .language__selector__flag {
@@ -19,7 +23,6 @@
 
     .language__selector__flag {
         width: 100%;
-        height: 100%;
         display: none;
         justify-content: center;
 

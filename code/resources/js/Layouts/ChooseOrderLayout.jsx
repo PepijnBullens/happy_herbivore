@@ -31,13 +31,13 @@ export default function ChooseOrderLayout({
                 <aside>
                     <div className={styles.aside__header}>
                         <div className={styles.aside__header__upper}>
+                            <CompactLanguageSelector language={language} />
                             <div
                                 onClick={back}
                                 className={styles.aside__header__upper__wrapper}
                             >
                                 <ChevronLeft />
                             </div>
-                            <CompactLanguageSelector language={language} />
                         </div>
                         <div className={styles.aside__header__content}>
                             {categories.map((category) => (

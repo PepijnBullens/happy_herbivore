@@ -29,9 +29,27 @@ export default function FinishedOrder({ language, pickupNumber }) {
         >
             <div className={styles.container}>
                 <h2 className={styles.pickup__text}>
-                    Thank you for ordering at Happy Herbivore! <br />
+                    <LanguageDisplayer
+                        language={language}
+                        words={{
+                            english:
+                                "Thank you for ordering at Happy Herbivore!",
+                            dutch: "Bedankt voor het bestellen bij Happy Herbivore!",
+                            german: "Danke für die Bestellung bei Happy Herbivore!",
+                        }}
+                    />
                     <br />
-                    <span>Your pick-up number is:</span>
+                    <br />
+                    <span>
+                        <LanguageDisplayer
+                            language={language}
+                            words={{
+                                english: "Your pick-up number is:",
+                                dutch: "Uw afhaalnummer is:",
+                                german: "Ihre Abholnummer ist:",
+                            }}
+                        />
+                    </span>
                 </h2>
                 <h2 className={styles.pickup__number}>
                     #{pickupNumber.toString().padStart(2, "0")}
