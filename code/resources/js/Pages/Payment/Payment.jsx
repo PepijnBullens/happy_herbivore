@@ -1,25 +1,12 @@
 import styles from "../../../css/payment.module.scss";
 import LanguageDisplayer from "@/Components/LanguageDisplayer";
 import PrimaryButton from "@/Components/PrimaryButton";
+import FinishingOrderLayout from "../../Layouts/FinishingOrderLayout";
 
 export default function Payment({ language }) {
     return (
-        <div className={styles.container}>
-            <header>
-                <img
-                    src="/assets/logo/text-logo.png"
-                    alt="Happy Herbivore logo"
-                />
-            </header>
-
-            <div className={styles.content}>
-                <img
-                    src="/assets/terminal.svg"
-                    alt="Image of payment terminal"
-                />
-            </div>
-
-            <footer>
+        <FinishingOrderLayout
+            footer={
                 <PrimaryButton>
                     <LanguageDisplayer
                         language={language}
@@ -30,7 +17,9 @@ export default function Payment({ language }) {
                         }}
                     />
                 </PrimaryButton>
-            </footer>
-        </div>
+            }
+        >
+            <img src="/assets/terminal.svg" alt="Image of payment terminal" />
+        </FinishingOrderLayout>
     );
 }
