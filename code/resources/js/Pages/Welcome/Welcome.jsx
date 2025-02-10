@@ -82,7 +82,7 @@ export default function Welcome({ images, language = null }) {
                             words={{
                                 english: "Take Away",
                                 dutch: "Afhalen",
-                                german: "Abheben",
+                                german: "Abholen",
                             }}
                         />
                     </PrimaryButton>
