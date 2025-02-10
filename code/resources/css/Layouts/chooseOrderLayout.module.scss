@@ -26,6 +26,7 @@ main {
                 width: 100%;
                 padding: 1rem 1rem;
                 display: flex;
+                justify-content: space-between;
                 align-items: center;
                 color: globals.$white;
                 cursor: pointer;
@@ -43,15 +44,6 @@ main {
                     border-radius: 10px;
                 }
 
-                &:hover .aside__header__upper__wrapper {
-                    svg {
-                        transform: translateX(-1rem) translateY(-0.5px);
-                    }
-                    p {
-                        transform: translateX(-1rem);
-                    }
-                }
-
                 .aside__header__upper__wrapper {
                     overflow: hidden;
                     display: flex;
@@ -59,14 +51,12 @@ main {
 
                     svg {
                         width: 1rem;
-                        transition: all 0.3s;
                         transform: translateY(-0.5px);
                     }
 
                     p {
                         font-family: renos;
                         font-size: 0.7rem;
-                        transition: all 0.3s;
                     }
                 }
             }

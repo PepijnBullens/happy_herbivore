@@ -6,6 +6,7 @@ import { ChevronLeft } from "lucide-react";
 import LanguageDisplayer from "@/Components/LanguageDisplayer";
 import ChooseOrderModal from "@/Components/ChooseOrderModal";
 import OrderChooser from "@/Components/OrderChooser";
+import CompactLanguageSelector from "../Components/CompactLanguageSelector";
 
 export default function ChooseOrderLayout({
     children,
@@ -29,16 +30,14 @@ export default function ChooseOrderLayout({
             <main>
                 <aside>
                     <div className={styles.aside__header}>
-                        <div
-                            onClick={back}
-                            className={styles.aside__header__upper}
-                        >
+                        <div className={styles.aside__header__upper}>
                             <div
+                                onClick={back}
                                 className={styles.aside__header__upper__wrapper}
                             >
                                 <ChevronLeft />
-                                <p>Back</p>
                             </div>
+                            <CompactLanguageSelector language={language} />
                         </div>
                         <div className={styles.aside__header__content}>
                             {categories.map((category) => (
