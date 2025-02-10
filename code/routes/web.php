@@ -12,8 +12,9 @@ Route::get('/choose-order', function () {
     return to_route('products.chooseOrder', ['category' => $imageController->categoryBasedOnTime()]);
 });
 Route::get('/choose-order/{category}', [ProductController::class, 'chooseOrder'])->name('products.chooseOrder');
-
 Route::get('/add-to-order/{id}/{quantity}', [ProductController::class, 'addToOrder'])->name('products.addToOrder');
+
+Route::get('/your-order', [ProductController::class, 'yourOrder'])->name('products.yourOrder');
 
 Route::get('/payment', [ProductController::class, 'payment'])->name('products.payment');
 

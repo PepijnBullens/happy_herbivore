@@ -23,8 +23,6 @@ return new class extends Migration
             $table->text('description_german')->nullable();
             $table->decimal('price', 10, 2);
             $table->integer('kcal');
-            $table->boolean('with_dip')->default(false);
-            $table->json('extra_choices')->nullable();
             $table->boolean('available')->default(true);
             $table->timestamps();
         });

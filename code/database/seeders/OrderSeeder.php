@@ -34,14 +34,6 @@ class OrderSeeder extends Seeder
                 'order_id' => $order->id,
                 'product_id' => Product::inRandomOrder()->first()->id,
                 'product_quantity' => random_int(1, 5),
-                'with_dip' => random_int(1, 2) === 1 ? optional(Product::whereHas('category', function($query) {
-                    $query->where('name_english', 'dip');
-                })->inRandomOrder()->first())->id : null,
-                'extra_choices' => random_int(1, 2) === 1 ? json_encode([
-                    'Spicy Paprika',
-                ]) : (random_int(1, 2) === 1 ? json_encode([
-                    'Herb Seasoning',
-                ]) : null),
             ]);
         }
 

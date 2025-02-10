@@ -18,8 +18,6 @@ return new class extends Migration
             $table->unsignedBigInteger('product_id');
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->integer('product_quantity');
-            $table->foreignId('with_dip')->nullable()->constrained('products');
-            $table->json('extra_choices')->nullable();
             $table->timestamps();
         });
     }

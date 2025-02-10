@@ -28,12 +28,12 @@ class ProductController extends Controller
             ->map(function ($product) {
                 return [
                     'id' => $product->id,
-                    'name' => $product->{'name_' . session('language')},
+                    'name' => $product->{'name_' . session('language', 'english')},
                     'kcal' => $product->kcal,
                     'price' => $product->price,
                     'path' => $product->image ? asset('storage/' . $product->image->path) : null,
                     'alt' => $product->image ? $product->image->alt : null,
-                    'description' => $product->{'description_' . session('language')},
+                    'description' => $product->{'description_' . session('language', 'english')},
                 ];
             });
 
@@ -129,7 +129,7 @@ class ProductController extends Controller
         }
 
         if (in_array($category, Category::pluck('name_english')->toArray()) || in_array($category, Category::pluck('name_dutch')->toArray()) || in_array($category, Category::pluck('name_german')->toArray())) {
-            $language = session('language');
+            $language = session('language', 'english');
 
             $categories = Category::with('image')->get()->map(function ($category) use ($language) {
                 return [
@@ -152,17 +152,17 @@ class ProductController extends Controller
                 ->map(function ($product) {
                     return [
                         'id' => $product->id,
-                        'name' => $product->{'name_' . session('language')},
+                        'name' => $product->{'name_' . session('language', 'english')},
                         'kcal' => $product->kcal,
                         'price' => $product->price,
                         'path' => $product->image ? asset('storage/' . $product->image->path) : null,
                         'alt' => $product->image ? $product->image->alt : null,
-                        'description' => $product->{'description_' . session('language')},
+                        'description' => $product->{'description_' . session('language', 'english')},
                     ];
                 });
 
             return Inertia::render('ChooseOrder/ChooseOrder', [
-                'language' => session('language'),
+                'language' => session('language', 'english'),
                 'categories' => $categories,
                 'category' => $category,
                 'popular' => $popular,
@@ -174,10 +174,28 @@ class ProductController extends Controller
         }
     }
 
+    public function yourOrder() {
+        if(null === session('orderType')) {
+            return to_route('images.index');
+        }
+
+        $order = session('order', []);
+
+        if(count($order) === 0) {
+            return to_route('images.index');
+        }
+
+        return Inertia::render('YourOrder/YourOrder', [
+            'language' => session('language', 'english'),
+            'order' => $order,
+            'totalPrice' => $this->calculateTotalPrice(),
+        ]);
+    }
+
     public function payment()
     {
         return Inertia::render('Payment/Payment', [
-            'language' => session('language'),
+            'language' => session('language', 'english'),
         ]);
     }
 }

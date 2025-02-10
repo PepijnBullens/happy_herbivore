@@ -7,9 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     protected $fillable = [
-        'name',
-        'description',
+        'category_id',
+        'name_dutch',
+        'description_dutch',
+        'name_english',
+        'description_english',
+        'name_german',
+        'description_german',
         'price',
+        'kcal',
+        'available',
     ];
 
     protected $hidden = [

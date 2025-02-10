@@ -33,7 +33,21 @@ and selecting a category displays corresponding food items clearly. Once items a
 the total cost button allows users to review their order and proceed to the payment screen. 
 Clicking the confirm button triggers a short delay to simulate payment processing before the manual card transaction is added by Harry Harpers development team.
 
+-- Colors
 
+We use the following colors:
+Orange #ff7520
+LightOrange #ffb181
+Green #8cd003
+LightGreen #deff78
+DarkBlue #053631
+
+
+
+-- images
+
+We are going to use images given by Harry Harper. These images are generated to pop-out and show the user the "good looking" side of the products.
+We also got cut-out versions of the products we use on other parts of the website which need to attract less information than the main content.
 
 -- Usability
 

@@ -60,16 +60,18 @@ export default function ChooseOrderLayout({
                         </div>
                     </div>
                     <div className={styles.aside__footer}>
-                        <PrimaryButton onClick={() => order} width={80}>
-                            <LanguageDisplayer
-                                language={language}
-                                words={{
-                                    english: "Order",
-                                    dutch: "Bestel",
-                                    german: "Befehl",
-                                }}
-                            />
-                        </PrimaryButton>
+                        <Link href="/your-order">
+                            <PrimaryButton onClick={() => order} width={80}>
+                                <LanguageDisplayer
+                                    language={language}
+                                    words={{
+                                        english: "Order",
+                                        dutch: "Bestel",
+                                        german: "Befehl",
+                                    }}
+                                />
+                            </PrimaryButton>
+                        </Link>
                         <h2>
                             €
                             {total.toLocaleString(undefined, {
