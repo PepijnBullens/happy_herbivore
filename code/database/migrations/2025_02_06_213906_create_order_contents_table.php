@@ -13,10 +13,12 @@ return new class extends Migration
     {
         Schema::create('order_contents', function (Blueprint $table) {
             $table->id();
-            $table->integer('order_id')->references('id')->on('orders');
-            $table->integer('product_id')->references('id')->on('products');
+            $table->unsignedBigInteger('order_id');
+            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
+            $table->unsignedBigInteger('product_id');
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->integer('product_quantity');
-            $table->integer('with_dip')->references('id')->on('products')->nullable();
+            $table->foreignId('with_dip')->nullable()->constrained('products');
             $table->json('extra_choices')->nullable();
             $table->timestamps();
         });

@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('order_statuses', function (Blueprint $table) {
             $table->id();
-            $table->integer('order_id')->references('id')->on('orders');
+            $table->unsignedBigInteger('order_id');
+            $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');
             $table->dateTime('order_started')->nullable();
             $table->dateTime('order_successful')->nullable();
             $table->dateTime('order_preparing')->nullable();
