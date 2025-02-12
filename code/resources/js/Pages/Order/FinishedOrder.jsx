@@ -4,8 +4,9 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import FinishingOrderLayout from "../../Layouts/FinishingOrderLayout";
 import { useEffect } from "react";
 import { router } from "@inertiajs/react";
+import "../../../css/kioskApp.scss";
 
-export default function FinishedOrder({ language, pickupNumber }) {
+export default function FinishedOrder({ language, pickupNumber, success }) {
     useEffect(() => {
         setTimeout(() => {
             router.visit("/");
@@ -28,32 +29,47 @@ export default function FinishedOrder({ language, pickupNumber }) {
             }
         >
             <div className={styles.container}>
-                <h2 className={styles.pickup__text}>
-                    <LanguageDisplayer
-                        language={language}
-                        words={{
-                            english:
-                                "Thank you for ordering at Happy Herbivore!",
-                            dutch: "Bedankt voor het bestellen bij Happy Herbivore!",
-                            german: "Danke für die Bestellung bei Happy Herbivore!",
-                        }}
-                    />
-                    <br />
-                    <br />
-                    <span>
+                {success ? (
+                    <>
+                        <h2 className={styles.pickup__text}>
+                            <LanguageDisplayer
+                                language={language}
+                                words={{
+                                    english:
+                                        "Thank you for ordering at Happy Herbivore!",
+                                    dutch: "Bedankt voor het bestellen bij Happy Herbivore!",
+                                    german: "Danke für die Bestellung bei Happy Herbivore!",
+                                }}
+                            />
+                            <br />
+                            <br />
+                            <span>
+                                <LanguageDisplayer
+                                    language={language}
+                                    words={{
+                                        english: "Your pick-up number is:",
+                                        dutch: "Uw afhaalnummer is:",
+                                        german: "Ihre Abholnummer ist:",
+                                    }}
+                                />
+                            </span>
+                        </h2>
+                        <h2 className={styles.pickup__number}>
+                            #{pickupNumber.toString().padStart(2, "0")}
+                        </h2>
+                    </>
+                ) : (
+                    <div className={styles.pickup__text}>
                         <LanguageDisplayer
                             language={language}
                             words={{
-                                english: "Your pick-up number is:",
-                                dutch: "Uw afhaalnummer is:",
-                                german: "Ihre Abholnummer ist:",
+                                english: "Something went wrong!",
+                                dutch: "Er is iets misgegaan!",
+                                german: "Etwas ist schief gelaufen!",
                             }}
                         />
-                    </span>
-                </h2>
-                <h2 className={styles.pickup__number}>
-                    #{pickupNumber.toString().padStart(2, "0")}
-                </h2>
+                    </div>
+                )}
             </div>
         </FinishingOrderLayout>
     );

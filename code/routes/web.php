@@ -6,6 +6,8 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\OrderController;
 use Inertia\Inertia;
 
+// -------------- main application routes
+
 Route::get('/', [ImageController::class, 'index'])->name('images.index');
 
 Route::get('/choose-order', function () {
@@ -21,8 +23,23 @@ Route::get('/payment', [OrderController::class, 'payment'])->name('order.payment
 
 Route::get('/finished-order', [OrderController::class, 'finishedOrder'])->name('order.finishedOrder');
 
-// api routes
+// --------------
+
+
+
+// -------------- orders dashboard routes
+
+Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
+
+// --------------
+
+
+
+// -------------- api routes
 Route::get('/reset-order', [ProductController::class, 'resetOrder'])->name('products.resetOrder');
 Route::get('/set-language/{language}', [ProductController::class, 'setLanguage'])->name('products.setLanguage');
 Route::get('/set-order-type/{orderType}', [ProductController::class, 'setOrderType'])->name('products.setOrderType');
 Route::get('/update-quantity/{id}/{quantity}', [ProductController::class, 'updateQuantity'])->name('products.updateQuantity');
+Route::get('/websocket-token', function () {
+    return response()->json(['token' => auth()->user()->websocket_token]);
+});

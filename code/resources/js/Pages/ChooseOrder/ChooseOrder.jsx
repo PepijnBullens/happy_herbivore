@@ -3,6 +3,7 @@ import styles from "../../../css/chooseOrder.module.scss";
 import { useState } from "react";
 import LanguageDisplayer from "@/Components/LanguageDisplayer";
 import DisplayMoney from "@/Components/DisplayMoney";
+import "../../../css/kioskApp.scss";
 
 export default function ChooseOrder({
     language,

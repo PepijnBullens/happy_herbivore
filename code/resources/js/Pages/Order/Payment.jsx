@@ -4,6 +4,7 @@ import PrimaryButton from "@/Components/PrimaryButton";
 import FinishingOrderLayout from "../../Layouts/FinishingOrderLayout";
 import { useEffect } from "react";
 import { router } from "@inertiajs/react";
+import "../../../css/kioskApp.scss";
 
 export default function Payment({ language }) {
     useEffect(() => {

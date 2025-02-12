@@ -4,6 +4,7 @@ import LanguageDisplayer from "@/Components/LanguageDisplayer";
 import { ShoppingBag } from "lucide-react";
 import { useState } from "react";
 import { router } from "@inertiajs/react";
+import "../../../css/kioskApp.scss";
 
 export default function Welcome({ images, language = null }) {
     const [overwrittenLanguage, setOverwrittenLanguage] = useState(null);

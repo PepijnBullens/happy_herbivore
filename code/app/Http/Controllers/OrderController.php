@@ -7,9 +7,37 @@ use Inertia\Inertia;
 use App\Models\Product;
 use App\Models\Order;
 use App\Models\OrderStatus;
+use Illuminate\Support\Facades\Http;
 
 class OrderController extends Controller
 {
+    // Send the order to the websocket server
+    private function sendOrder($order)
+    {
+        $secret = env('WEBSOCKET_SECRET');
+
+        $response = Http::post('http://localhost:6001/send-order', [
+            'order' => $order,
+            'token' => $secret,
+        ]);
+
+        if($response->status() === 200) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    // Show the order index page
+    public function index() {
+        $orders = Order::with('orderContents')->get();
+
+        return Inertia::render('Order/Index', [
+            'language' => session('language', 'english'),
+            'initialOrders' => $orders,
+        ]);
+    }
+
     public function calculateTotalPrice()
     {
         $order = session('order.orderContent', []);
@@ -32,6 +60,7 @@ class OrderController extends Controller
             return to_route('images.index');
         }
 
+        // Get the order information
         $order = session('order.orderContent', []);
         $language = session('language', 'english');
         $orderType = session('orderType') === 'Eat Here' ? ($language === 'english' ? 'Eat Here' : ($language === 'dutch' ? 'Hier Eten' : 'Hier Essen')) : ($language === 'english' ? 'Take Away' : ($language === 'dutch' ? 'Afhalen' : 'Abheben'));
@@ -70,11 +99,13 @@ class OrderController extends Controller
         ]);
     }
 
+    // Finish the order
     public function finishedOrder() {
         if(null === session('order.orderStatus')) {
             return to_route('images.index');
         }
 
+        // Check if the order status is payment
         if(session('order.orderStatus') !== 'payment') {
             return to_route('order.yourOrder');
         } else {
@@ -99,6 +130,8 @@ class OrderController extends Controller
                 $orderStatus->update([
                     'order_successful' => now(),
                 ]);
+
+                $success = $this->sendOrder($order);
             }
 
             $pickupNumber = $order->pickup_number;
@@ -109,7 +142,14 @@ class OrderController extends Controller
             return Inertia::render('Order/FinishedOrder', [
                 'language' => session('language', 'english'),
                 'pickupNumber' => $pickupNumber,
+                'success' => $success,
             ]);
         }
+    }
+
+    public function getOrders() {
+        $orders = Order::with('orderContents')->get();
+
+        return response()->json($orders);
     }
 }

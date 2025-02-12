@@ -5,6 +5,7 @@ import FinishingOrderLayout from "../../Layouts/FinishingOrderLayout";
 import DisplayMoney from "@/Components/DisplayMoney";
 import { WalletCards } from "lucide-react";
 import { router } from "@inertiajs/react";
+import "../../../css/kioskApp.scss";
 
 export default function YourOrder({ language, order, totalPrice, orderType }) {
     const updateQuantity = (id, quantity) => {
