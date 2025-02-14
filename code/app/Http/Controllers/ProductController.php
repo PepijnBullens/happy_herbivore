@@ -41,15 +41,26 @@ class ProductController extends Controller
             });
 
         // If there are not enough best selling products, add random products
-        if ($products->count() < $amount) {
-            $remainingCount = $amount - $products->count();
+        $remainingCount = $amount - $products->count();
+        if ($remainingCount > 0) {
             $randomProducts = Product::with('image')
                 ->whereNotIn('id', $products->pluck('id')->toArray())
                 ->inRandomOrder()
                 ->limit($remainingCount)
-                ->get();
+                ->get()
+                ->map(function ($product) {
+                    return [
+                        'id' => $product->id,
+                        'name' => $product->{'name_' . session('language', 'english')},
+                        'kcal' => $product->kcal,
+                        'price' => $product->price,
+                        'path' => $product->image ? asset('storage/' . $product->image->path) : null,
+                        'alt' => $product->image ? $product->image->alt : null,
+                        'description' => $product->{'description_' . session('language', 'english')},
+                    ];
+                });
 
-            $products = $products->merge($randomProducts);
+            $products = collect($products)->merge($randomProducts);
         }
 
         return $products;
