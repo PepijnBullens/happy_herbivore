@@ -27,11 +27,8 @@ export default function Analytics({ orderData }) {
                     enabled: false,
                 },
             },
-            stroke: {
-                curve: "curved",
-            },
             title: {
-                text: "Product Trends by Month",
+                text: "Total Revenue",
                 align: "center",
                 style: {
                     color: "black",
