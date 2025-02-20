@@ -242,9 +242,6 @@ class ProductController extends Controller
                 'averageOrderPrice' => number_format(OrderContent::whereHas('order', function ($query) use ($date) {
                     $query->whereDate('created_at', $date);
                 })->join('products', 'order_contents.product_id', '=', 'products.id')->avg('products.price'), 2),
-                'averageOrderTime' => Order::whereDate('orders.created_at', $date)
-                    ->join('order_statuses', 'orders.id', '=', 'order_statuses.order_id')
-                    ->avg(DB::raw('TIME_TO_SEC(TIMEDIFF(order_statuses.order_picked_up, order_statuses.order_started))')),
                 'mostPopularProduct' => OrderContent::whereHas('order', function ($query) use ($date) {
                     $query->whereDate('created_at', $date);
                 })->join('products', 'order_contents.product_id', '=', 'products.id')

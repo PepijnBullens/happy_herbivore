@@ -4,6 +4,7 @@ import React from "react";
 import ReactApexChart from "react-apexcharts";
 
 export default function Analytics({ orderData }) {
+    console.log(orderData);
     const orderDataArray = Object.entries(orderData);
 
     const [state] = React.useState({
@@ -12,7 +13,7 @@ export default function Analytics({ orderData }) {
                 name: "price",
                 colors: ["white", "white"],
                 data: orderDataArray.map((order) => {
-                    const price = order[1].averageOrderPrice;
+                    const price = order[1].totalRevenue;
                     return isNaN(price) ? 0 : price;
                 }),
             },
