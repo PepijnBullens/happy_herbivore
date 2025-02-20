@@ -8,7 +8,7 @@ export default function Analytics({ orderData }) {
     console.log(orderDataArray);
 
     const [state] = React.useState({
-        series: [
+        seriesTotalRevenue: [
             {
                 name: "price",
                 colors: ["white", "white"],
@@ -18,7 +18,7 @@ export default function Analytics({ orderData }) {
                 }),
             },
         ],
-        options: {
+        optionsTotalRevenue: {
             chart: {
                 height: 500,
                 width: 400,
@@ -41,7 +41,12 @@ export default function Analytics({ orderData }) {
                 },
             },
             xaxis: {
-                categories: orderDataArray.map((order) => order[0]),
+                categories: orderDataArray.map((order) => {
+                    const date = new Date(order[0]);
+                    return `${date.getDate()} ${date.toLocaleString("default", {
+                        month: "short",
+                    })}`;
+                }),
                 labels: {
                     style: {
                         colors: "black",
@@ -59,6 +64,118 @@ export default function Analytics({ orderData }) {
                 },
             },
         },
+        seriesAverageOrderPrice: [
+            {
+                name: "price",
+                colors: ["white", "white"],
+                data: orderDataArray.map((order) => {
+                    const price = order[1].averageOrderPrice;
+                    return isNaN(price) ? 0 : price;
+                }),
+            },
+        ],
+        optionsAverageOrderPrice: {
+            chart: {
+                height: 500,
+                width: 400,
+                type: "basic-bar",
+                zoom: {
+                    enabled: false,
+                },
+            },
+            title: {
+                text: "Average Order Price",
+                align: "center",
+                style: {
+                    color: "black",
+                },
+            },
+            grid: {
+                row: {
+                    colors: ["white", "white"],
+                    opacity: 0,
+                },
+            },
+            xaxis: {
+                categories: orderDataArray.map((order) => {
+                    const date = new Date(order[0]);
+                    return `${date.getDate()} ${date.toLocaleString("default", {
+                        month: "short",
+                    })}`;
+                }),
+                labels: {
+                    style: {
+                        colors: "black",
+                    },
+                },
+            },
+            yaxis: {
+                labels: {
+                    style: {
+                        colors: "black",
+                    },
+                    formatter: function (value) {
+                        return `$${value.toFixed(2)}`;
+                    },
+                },
+            },
+        },
+        seriesTotalOrders: [
+            {
+                name: "quantity",
+                colors: ["white", "white"],
+                data: orderDataArray.map((order) => {
+                    const quantity = order[1].totalOrders;
+                    return isNaN(quantity) ? 0 : quantity;
+                }),
+            },
+        ],
+        optionsTotalOrders: {
+            chart: {
+                height: 500,
+                width: 400,
+                type: "basic-bar",
+                zoom: {
+                    enabled: false,
+                },
+            },
+            title: {
+                text: "Total Orders",
+                align: "center",
+                style: {
+                    color: "black",
+                },
+            },
+            grid: {
+                row: {
+                    colors: ["white", "white"],
+                    opacity: 0,
+                },
+            },
+            xaxis: {
+                categories: orderDataArray.map((order) => {
+                    const date = new Date(order[0]);
+                    return `${date.getDate()} ${date.toLocaleString("default", {
+                        month: "short",
+                    })}`;
+                }),
+                labels: {
+                    style: {
+                        colors: "black",
+                    },
+                },
+            },
+            yaxis: {
+                labels: {
+                    style: {
+                        colors: "black",
+                    },
+                    formatter: function (value) {
+                        return value;
+                    },
+                },
+            },
+        },
     });
 
     return (
@@ -66,10 +183,22 @@ export default function Analytics({ orderData }) {
             <div className={styles.chart__wrapper}>
                 <div className={styles.chart}>
                     <ReactApexChart
-                        options={state.options}
-                        series={state.series}
-                        type="bar"
-                        height={400}
+                        options={state.optionsTotalRevenue}
+                        series={state.seriesTotalRevenue}
+                        type="line"
+                        height={200}
+                    />
+                    <ReactApexChart
+                        options={state.optionsAverageOrderPrice}
+                        series={state.seriesAverageOrderPrice}
+                        type="line"
+                        height={200}
+                    />
+                    <ReactApexChart
+                        options={state.optionsTotalOrders}
+                        series={state.seriesTotalOrders}
+                        type="line"
+                        height={200}
                     />
                 </div>
             </div>
