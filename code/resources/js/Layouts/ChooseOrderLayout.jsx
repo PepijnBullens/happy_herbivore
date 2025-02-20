@@ -1,5 +1,5 @@
 import { router, Link } from "@inertiajs/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "../../css/Layouts/chooseOrderLayout.module.scss";
 import PrimaryButton from "@/Components/PrimaryButton";
 import { ChevronLeft } from "lucide-react";
@@ -24,6 +24,31 @@ export default function ChooseOrderLayout({
     const [total, setTotal] = useState(totalPrice ?? 0);
 
     const [tryClosingModal, setTryClosingModal] = useState(false);
+
+    const [isInactive, setIsInactive] = useState(false);
+
+    useEffect(() => {
+        let timeoutId;
+
+        const resetTimer = () => {
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(() => setIsInactive(true), 1000);
+            setIsInactive(false);
+        };
+
+        const events = ["mousemove", "keydown", "mousedown", "touchstart"];
+
+        events.forEach((event) => window.addEventListener(event, resetTimer));
+
+        resetTimer(); // Initialize the timer
+
+        return () => {
+            clearTimeout(timeoutId);
+            events.forEach((event) =>
+                window.removeEventListener(event, resetTimer)
+            );
+        };
+    }, []);
 
     return (
         <>
@@ -99,6 +124,25 @@ export default function ChooseOrderLayout({
                         language={language}
                         setTotal={setTotal}
                     />
+                </ChooseOrderModal>
+            )}
+
+            {isInactive && (
+                <ChooseOrderModal
+                    setInspectedProduct={setInspectedProduct}
+                    tryClosingModal={tryClosingModal}
+                    setTryClosingModal={setTryClosingModal}
+                >
+                    <h2>
+                        <LanguageDisplayer
+                            language={language}
+                            words={{
+                                english: "Are you still there?",
+                                dutch: "Ben je er nog?",
+                                german: "Bist du noch da?",
+                            }}
+                        />
+                    </h2>
                 </ChooseOrderModal>
             )}
         </>
