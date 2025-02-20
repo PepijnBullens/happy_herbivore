@@ -1,5 +1,48 @@
 @use "../globals";
 
+.inactive__modal {
+    min-height: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+
+    .inactive__modal__content {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+
+        h2 {
+            font-family: renos;
+            font-size: 1.2rem;
+            color: globals.$dark-green;
+            text-align: center;
+        }
+
+        div {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+            background-color: globals.$orange;
+            aspect-ratio: 1;
+            color: globals.$white;
+            width: 50px;
+            border-radius: 5px;
+        }
+    }
+
+    .inactive__modal__buttons {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        width: 100%;
+    }
+}
+
 main {
     display: flex;
     width: 100%;

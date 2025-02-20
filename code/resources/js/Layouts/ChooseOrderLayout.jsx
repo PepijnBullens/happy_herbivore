@@ -21,26 +21,31 @@ export default function ChooseOrderLayout({
         router.visit("/reset-order");
     };
 
+    const continueOrder = () => {
+        setIsInactive(false);
+        setInactiveCountdown(10);
+    };
+
     const [total, setTotal] = useState(totalPrice ?? 0);
 
     const [tryClosingModal, setTryClosingModal] = useState(false);
 
     const [isInactive, setIsInactive] = useState(false);
+    const [inactiveCountdown, setInactiveCountdown] = useState(10);
 
     useEffect(() => {
         let timeoutId;
 
         const resetTimer = () => {
             clearTimeout(timeoutId);
-            timeoutId = setTimeout(() => setIsInactive(true), 1000);
-            setIsInactive(false);
+            timeoutId = setTimeout(() => setIsInactive(true), 60000);
         };
 
         const events = ["mousemove", "keydown", "mousedown", "touchstart"];
 
         events.forEach((event) => window.addEventListener(event, resetTimer));
 
-        resetTimer(); // Initialize the timer
+        resetTimer();
 
         return () => {
             clearTimeout(timeoutId);
@@ -49,6 +54,23 @@ export default function ChooseOrderLayout({
             );
         };
     }, []);
+
+    useEffect(() => {
+        if (isInactive) {
+            if (inactiveCountdown === 0) {
+                setTryClosingModal(true);
+                setTimeout(() => {
+                    back();
+                }, 1000);
+            } else {
+                const intervalId = setInterval(() => {
+                    setInactiveCountdown(inactiveCountdown - 1);
+                }, 1000);
+
+                return () => clearInterval(intervalId);
+            }
+        }
+    }, [isInactive, inactiveCountdown]);
 
     return (
         <>
@@ -133,16 +155,29 @@ export default function ChooseOrderLayout({
                     tryClosingModal={tryClosingModal}
                     setTryClosingModal={setTryClosingModal}
                 >
-                    <h2>
-                        <LanguageDisplayer
-                            language={language}
-                            words={{
-                                english: "Are you still there?",
-                                dutch: "Ben je er nog?",
-                                german: "Bist du noch da?",
-                            }}
-                        />
-                    </h2>
+                    <div className={styles.inactive__modal}>
+                        <div className={styles.inactive__modal__content}>
+                            <h2>
+                                <LanguageDisplayer
+                                    language={language}
+                                    words={{
+                                        english: "Are you still there?",
+                                        dutch: "Ben je er nog?",
+                                        german: "Bist du noch da?",
+                                    }}
+                                />
+                            </h2>
+                            <div>{inactiveCountdown}</div>
+                        </div>
+                        <div className={styles.inactive__modal__buttons}>
+                            <PrimaryButton onClick={back}>
+                                Go Back
+                            </PrimaryButton>
+                            <PrimaryButton onClick={continueOrder}>
+                                Continue
+                            </PrimaryButton>
+                        </div>
+                    </div>
                 </ChooseOrderModal>
             )}
         </>
