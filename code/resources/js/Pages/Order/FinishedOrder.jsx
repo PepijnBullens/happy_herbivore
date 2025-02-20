@@ -6,7 +6,11 @@ import { useEffect } from "react";
 import { router } from "@inertiajs/react";
 import "../../../css/kioskApp.scss";
 
-export default function FinishedOrder({ language, pickupNumber, success }) {
+export default function FinishedOrder({
+    language,
+    pickupNumber,
+    success = true,
+}) {
     useEffect(() => {
         setTimeout(() => {
             router.visit("/");

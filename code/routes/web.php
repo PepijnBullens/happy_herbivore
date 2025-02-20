@@ -37,6 +37,8 @@ Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
 
 // -------------- analytics-page routes
 
+Route::get('/analytics', [ProductController::class, 'analytics'])->name('products.analytics');
+
 // --------------
 
 

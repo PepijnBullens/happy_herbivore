@@ -1,0 +1,11 @@
+@use "globals";
+
+.chart__container {
+    width: 100vw;
+    height: 100vh;
+    color: black;
+
+    span {
+        color: globals.$darker-green;
+    }
+}

@@ -11,23 +11,6 @@ use Illuminate\Support\Facades\Http;
 
 class OrderController extends Controller
 {
-    // Send the order to the websocket server
-    private function sendOrder($order)
-    {
-        $secret = env('WEBSOCKET_SECRET');
-
-        $response = Http::post('http://localhost:6001/send-order', [
-            'order' => $order,
-            'token' => $secret,
-        ]);
-
-        if($response->status() === 200) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
     // Show the order index page
     public function index() {
         $orders = Order::with('orderContents')->get();
@@ -130,8 +113,6 @@ class OrderController extends Controller
                 $orderStatus->update([
                     'order_successful' => now(),
                 ]);
-
-                $success = $this->sendOrder($order);
             }
 
             $pickupNumber = $order->pickup_number;
@@ -142,14 +123,7 @@ class OrderController extends Controller
             return Inertia::render('Order/FinishedOrder', [
                 'language' => session('language', 'english'),
                 'pickupNumber' => $pickupNumber,
-                'success' => $success,
             ]);
         }
-    }
-
-    public function getOrders() {
-        $orders = Order::with('orderContents')->get();
-
-        return response()->json($orders);
     }
 }
