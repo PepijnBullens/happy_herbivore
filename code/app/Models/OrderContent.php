@@ -12,4 +12,10 @@ class OrderContent extends Model
     {
         return $this->belongsTo(Order::class);
     }
+
+    public function orderContents()
+    {
+        return $this->hasMany(OrderContent::class);
+    }
+
 }

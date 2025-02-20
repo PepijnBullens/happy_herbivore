@@ -10,6 +10,7 @@ use App\Models\Product;
 use App\Models\Image;
 use App\Models\Order;
 use App\Models\OrderStatus;
+use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
 {
@@ -236,4 +237,35 @@ class ProductController extends Controller
 
         return response()->json(['order' => $order]);
     }
+
+    public function analytics()
+    {
+        $orderData = [];
+
+        for ($i = 0; $i <= 30; $i++) {
+            $date = today()->subDays($i)->toDateString();
+            $orderData[$date] = [
+                'totalOrders' => Order::whereDate('created_at', $date)->count(),
+                'totalRevenue' => OrderContent::whereHas('order', function ($query) use ($date) {
+                    $query->whereDate('created_at', $date);
+                })->join('products', 'order_contents.product_id', '=', 'products.id')
+                ->sum(DB::raw('order_contents.product_quantity * products.price')),
+                'averageOrderPrice' => number_format(OrderContent::whereHas('order', function ($query) use ($date) {
+                    $query->whereDate('created_at', $date);
+                })->join('products', 'order_contents.product_id', '=', 'products.id')->avg('products.price'), 2),
+                'mostPopularProduct' => OrderContent::whereHas('order', function ($query) use ($date) {
+                    $query->whereDate('created_at', $date);
+                })->join('products', 'order_contents.product_id', '=', 'products.id')
+                ->select('products.name_english', OrderContent::raw('SUM(order_contents.product_quantity) as total_quantity'))
+                ->groupBy('products.name_english')
+                ->orderByDesc('total_quantity')
+                ->first()
+            ];
+        }
+    
+        return Inertia::render('Analytics/Analytics', [
+            'orderData' => $orderData,
+        ]);
+    }
+    
 }
