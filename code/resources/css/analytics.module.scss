@@ -1,15 +1,12 @@
 @use "globals";
 
 .chart__container {
-    display: grid;
-    grid-template-columns: 1fr;
-    grid-template-rows: 100vh 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4rem 0;
 
     .chart__wrapper {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-
         .chart {
             padding: 2rem;
             box-sizing: content-box;

@@ -22,7 +22,7 @@ export default function Analytics({ orderData }) {
             chart: {
                 height: 500,
                 width: 400,
-                type: "basic-bar",
+                type: "bar",
                 zoom: {
                     enabled: false,
                 },
@@ -39,6 +39,16 @@ export default function Analytics({ orderData }) {
                     colors: ["white", "white"],
                     opacity: 0,
                 },
+            },
+            plotOptions: {
+                bar: {
+                    borderRadius: 4,
+                    borderRadiusApplication: "end",
+                    horizontal: true,
+                },
+            },
+            dataLabels: {
+                enabled: false,
             },
             xaxis: {
                 categories: orderDataArray.map((order) => {
@@ -176,6 +186,129 @@ export default function Analytics({ orderData }) {
                 },
             },
         },
+
+        seriesMostPopularProduct: [
+            {
+                name: "sales",
+                data: orderDataArray.map((order) => {
+                    return {
+                        x:
+                            order[1].mostPopularProduct &&
+                            order[1].mostPopularProduct.name_english
+                                ? order[1].mostPopularProduct.name_english
+                                : "No Product",
+                        y: order[1].mostPopularProduct
+                            ? order[1].mostPopularProduct.total_quantity
+                            : 0,
+                    };
+                }),
+            },
+        ],
+        optionsMostPopularProduct: {
+            chart: {
+                height: 500,
+                width: 400,
+                type: "basic-bar",
+                zoom: {
+                    enabled: false,
+                },
+            },
+            title: {
+                text: "Most Popular Product",
+                align: "center",
+                style: {
+                    color: "black",
+                },
+            },
+            grid: {
+                row: {
+                    colors: ["white", "white"],
+                    opacity: 0,
+                },
+            },
+            xaxis: {
+                categories: orderDataArray.map((order) => {
+                    const date = new Date(order[0]);
+                    return `${date.getDate()} ${date.toLocaleString("default", {
+                        month: "short",
+                    })}`;
+                }),
+                labels: {
+                    style: {
+                        colors: "black",
+                    },
+                },
+            },
+            yaxis: {
+                labels: {
+                    style: {
+                        colors: "black",
+                    },
+                    formatter: function (value) {
+                        return value;
+                    },
+                },
+            },
+            dataLabels: {
+                enabled: true,
+                formatter: function (val, opts) {
+                    return opts.w.config.series[opts.seriesIndex].data[
+                        opts.dataPointIndex
+                    ].x;
+                },
+                style: {
+                    colors: ["white"],
+                },
+            },
+        },
+
+        seriesMostPopularProduct: [
+            {
+                data: orderDataArray.map((order) => {
+                    return order[1].mostPopularProduct
+                        ? order[1].mostPopularProduct.total_quantity
+                        : 0;
+                }),
+            },
+        ],
+        optionsMostPopularProduct: {
+            chart: {
+                type: "bar",
+                height: 350,
+            },
+            plotOptions: {
+                bar: {
+                    borderRadius: 4,
+                    borderRadiusApplication: "end",
+                    horizontal: true,
+                },
+            },
+            dataLabels: {
+                enabled: true,
+                formatter: function (val, opts) {
+                    const order = orderDataArray[opts.dataPointIndex][1];
+                    return order.mostPopularProduct &&
+                        order.mostPopularProduct.name_english
+                        ? order.mostPopularProduct.name_english
+                        : "No Product";
+                },
+            },
+            xaxis: {
+                categories: orderDataArray.map((order) => {
+                    const date = new Date(order[0]);
+                    return `${date.getDate()} ${date.toLocaleString("default", {
+                        month: "short",
+                    })}`;
+                }),
+            },
+            title: {
+                text: "Most Popular Product",
+                align: "center",
+                style: {
+                    color: "black",
+                },
+            },
+        },
     });
 
     return (
@@ -199,6 +332,12 @@ export default function Analytics({ orderData }) {
                         series={state.seriesTotalOrders}
                         type="line"
                         height={200}
+                    />
+                    <ReactApexChart
+                        options={state.optionsMostPopularProduct}
+                        series={state.seriesMostPopularProduct}
+                        type="bar"
+                        height={600}
                     />
                 </div>
             </div>
