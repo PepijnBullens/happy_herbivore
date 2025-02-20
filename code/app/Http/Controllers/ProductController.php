@@ -242,9 +242,10 @@ class ProductController extends Controller
     {
         $orderData = [];
 
-        for ($i = 0; $i <= 30; $i++) {
+        for ($i = 16; $i >= 0; $i--) {
             $date = today()->subDays($i)->toDateString();
-            $orderData[$date] = [
+            $formattedDate = today()->subDays($i)->format('m/d');
+            $orderData[$formattedDate] = [
                 'totalOrders' => Order::whereDate('created_at', $date)->count(),
                 'totalRevenue' => OrderContent::whereHas('order', function ($query) use ($date) {
                     $query->whereDate('created_at', $date);

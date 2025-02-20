@@ -1,11 +1,22 @@
 @use "globals";
 
 .chart__container {
-    width: 100vw;
-    height: 100vh;
-    color: black;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 100vh 100vh;
 
-    span {
-        color: globals.$darker-green;
+    .chart__wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .chart {
+            padding: 2rem;
+            box-sizing: content-box;
+            border: 1px solid globals.$border;
+            box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            width: 800px;
+        }
     }
 }

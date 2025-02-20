@@ -4,8 +4,8 @@ import React from "react";
 import ReactApexChart from "react-apexcharts";
 
 export default function Analytics({ orderData }) {
-    console.log(orderData);
     const orderDataArray = Object.entries(orderData);
+    console.log(orderDataArray);
 
     const [state] = React.useState({
         series: [
@@ -22,42 +22,39 @@ export default function Analytics({ orderData }) {
             chart: {
                 height: 500,
                 width: 400,
-                type: "line",
+                type: "basic-bar",
                 zoom: {
                     enabled: false,
                 },
             },
-            dataLabels: {
-                enabled: false,
-            },
             stroke: {
-                curve: "straight",
+                curve: "curved",
             },
             title: {
                 text: "Product Trends by Month",
-                align: "left",
+                align: "center",
                 style: {
-                    color: "white",
+                    color: "black",
                 },
             },
             grid: {
                 row: {
                     colors: ["white", "white"],
-                    opacity: 0.5,
+                    opacity: 0,
                 },
             },
             xaxis: {
                 categories: orderDataArray.map((order) => order[0]),
                 labels: {
                     style: {
-                        colors: "white",
+                        colors: "black",
                     },
                 },
             },
             yaxis: {
                 labels: {
                     style: {
-                        colors: "white",
+                        colors: "black",
                     },
                     formatter: function (value) {
                         return `$${value.toFixed(2)}`;
@@ -68,18 +65,18 @@ export default function Analytics({ orderData }) {
     });
 
     return (
-        <>
-            <div className={styles.chart__container}>
-                <div id="chart">
+        <div className={styles.chart__container}>
+            <div className={styles.chart__wrapper}>
+                <div className={styles.chart}>
                     <ReactApexChart
                         options={state.options}
                         series={state.series}
-                        type="line"
+                        type="bar"
                         height={400}
                     />
                 </div>
-                <div id="html-dist"></div>
             </div>
-        </>
+            <div className={styles.chart__wrapper}></div>
+        </div>
     );
 }
