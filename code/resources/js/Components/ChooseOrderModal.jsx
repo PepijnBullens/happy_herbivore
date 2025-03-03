@@ -7,6 +7,7 @@ export default function ChooseOrderModal({
     setInspectedProduct,
     tryClosingModal,
     setTryClosingModal,
+    continueOrder,
 }) {
     const [isVisible, setIsVisible] = useState(true);
 
@@ -33,7 +34,12 @@ export default function ChooseOrderModal({
                 animate={{ opacity: isVisible ? 1 : 0 }}
                 transition={{ duration: 0.5 }}
                 className={styles.background}
-                onClick={() => setIsVisible(false)}
+                onClick={() => {
+                    setIsVisible(false);
+                    setTimeout(() => {
+                        continueOrder();
+                    }, 1000);
+                }}
             ></motion.div>
             <motion.div
                 initial={{ y: "100%" }}

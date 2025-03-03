@@ -48,3 +48,4 @@ Route::get('/reset-order', [ProductController::class, 'resetOrder'])->name('prod
 Route::get('/set-language/{language}', [ProductController::class, 'setLanguage'])->name('products.setLanguage');
 Route::get('/set-order-type/{orderType}', [ProductController::class, 'setOrderType'])->name('products.setOrderType');
 Route::get('/update-quantity/{id}/{quantity}', [ProductController::class, 'updateQuantity'])->name('products.updateQuantity');
+Route::get('/check-item-in-order', [OrderController::class, 'checkItemInOrder'])->name('order.checkItemInOrder');

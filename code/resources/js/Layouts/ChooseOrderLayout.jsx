@@ -17,13 +17,36 @@ export default function ChooseOrderLayout({
     setInspectedProduct,
     totalPrice,
 }) {
+    const [checkItemInOrder, setCheckItemInOrder] = useState(false);
+
+    const checkItemInOrderFunc = () => {
+        fetch("/check-item-in-order", {
+            method: "GET",
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                if (data.hasItem) {
+                    setCheckItemInOrder(true);
+                } else {
+                    router.visit("/reset-order");
+                }
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+    };
+
     const back = () => {
         router.visit("/reset-order");
     };
 
     const continueOrder = () => {
-        setIsInactive(false);
-        setInactiveCountdown(10);
+        setTryClosingModal(true);
+        setTimeout(() => {
+            setCheckItemInOrder(false);
+            setIsInactive(false);
+            setInactiveCountdown(10);
+        }, 1000);
     };
 
     const [total, setTotal] = useState(totalPrice ?? 0);
@@ -37,8 +60,11 @@ export default function ChooseOrderLayout({
         let timeoutId;
 
         const resetTimer = () => {
-            clearTimeout(timeoutId);
-            timeoutId = setTimeout(() => setIsInactive(true), 60000);
+            if (!isInactive) {
+                clearTimeout(timeoutId);
+                setInactiveCountdown(10);
+                timeoutId = setTimeout(() => setIsInactive(true), 60000);
+            }
         };
 
         const events = ["mousemove", "keydown", "mousedown", "touchstart"];
@@ -53,10 +79,13 @@ export default function ChooseOrderLayout({
                 window.removeEventListener(event, resetTimer)
             );
         };
-    }, []);
+    }, [isInactive]);
 
     useEffect(() => {
         if (isInactive) {
+            setCheckItemInOrder(false);
+            setInspectedProduct(null);
+
             if (inactiveCountdown === 0) {
                 setTryClosingModal(true);
                 setTimeout(() => {
@@ -64,7 +93,7 @@ export default function ChooseOrderLayout({
                 }, 1000);
             } else {
                 const intervalId = setInterval(() => {
-                    setInactiveCountdown(inactiveCountdown - 1);
+                    setInactiveCountdown((prevCountdown) => prevCountdown - 1);
                 }, 1000);
 
                 return () => clearInterval(intervalId);
@@ -80,7 +109,7 @@ export default function ChooseOrderLayout({
                         <div className={styles.aside__header__upper}>
                             <CompactLanguageSelector language={language} />
                             <div
-                                onClick={back}
+                                onClick={checkItemInOrderFunc}
                                 className={styles.aside__header__upper__wrapper}
                             >
                                 <ChevronLeft />
@@ -134,11 +163,60 @@ export default function ChooseOrderLayout({
                     <div className={styles.content__container}>{children}</div>
                 </section>
             </main>
+
+            {checkItemInOrder && (
+                <ChooseOrderModal
+                    setInspectedProduct={setInspectedProduct}
+                    tryClosingModal={tryClosingModal}
+                    setTryClosingModal={setTryClosingModal}
+                    continueOrder={continueOrder}
+                >
+                    <div className={styles.inactive__modal}>
+                        <div className={styles.inactive__modal__content}>
+                            <h2>
+                                <LanguageDisplayer
+                                    language={language}
+                                    words={{
+                                        english:
+                                            "Please note! You still have items in your cart",
+                                        dutch: "Let op! Je hebt nog producten in je winkelmandje",
+                                        german: "Bitte beachten Sie! Sie haben noch Artikel im Warenkorb",
+                                    }}
+                                />
+                            </h2>
+                        </div>
+                        <div className={styles.inactive__modal__buttons}>
+                            <PrimaryButton onClick={back}>
+                                <LanguageDisplayer
+                                    language={language}
+                                    words={{
+                                        english: "Go back",
+                                        dutch: "Ga terug",
+                                        german: "Geh zurück",
+                                    }}
+                                />
+                            </PrimaryButton>
+                            <PrimaryButton onClick={continueOrder}>
+                                <LanguageDisplayer
+                                    language={language}
+                                    words={{
+                                        english: "Continue",
+                                        dutch: "Doorgaan",
+                                        german: "Fortsetzen",
+                                    }}
+                                />
+                            </PrimaryButton>
+                        </div>
+                    </div>
+                </ChooseOrderModal>
+            )}
+
             {inspectedProduct && (
                 <ChooseOrderModal
                     setInspectedProduct={setInspectedProduct}
                     tryClosingModal={tryClosingModal}
                     setTryClosingModal={setTryClosingModal}
+                    continueOrder={continueOrder}
                 >
                     <OrderChooser
                         setTryClosingModal={setTryClosingModal}
@@ -154,6 +232,7 @@ export default function ChooseOrderLayout({
                     setInspectedProduct={setInspectedProduct}
                     tryClosingModal={tryClosingModal}
                     setTryClosingModal={setTryClosingModal}
+                    continueOrder={continueOrder}
                 >
                     <div className={styles.inactive__modal}>
                         <div className={styles.inactive__modal__content}>
@@ -171,10 +250,24 @@ export default function ChooseOrderLayout({
                         </div>
                         <div className={styles.inactive__modal__buttons}>
                             <PrimaryButton onClick={back}>
-                                Go Back
+                                <LanguageDisplayer
+                                    language={language}
+                                    words={{
+                                        english: "Go back",
+                                        dutch: "Ga terug",
+                                        german: "Geh zurück",
+                                    }}
+                                />
                             </PrimaryButton>
                             <PrimaryButton onClick={continueOrder}>
-                                Continue
+                                <LanguageDisplayer
+                                    language={language}
+                                    words={{
+                                        english: "Continue",
+                                        dutch: "Doorgaan",
+                                        german: "Fortsetzen",
+                                    }}
+                                />
                             </PrimaryButton>
                         </div>
                     </div>

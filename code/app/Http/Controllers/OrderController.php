@@ -126,4 +126,17 @@ class OrderController extends Controller
             ]);
         }
     }
+
+    public function checkItemInOrder() {
+        if(null !== session('order.orderContent') && count(session('order.orderContent')) > 0) {
+            return response()->json([
+                'hasItem' => true,
+                'content' => session('order.orderContent'),
+            ]);
+        } else {
+            return response()->json([
+                'hasItem' => false,
+            ]);
+        }
+    }
 }
