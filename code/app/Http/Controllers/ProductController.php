@@ -151,8 +151,15 @@ class ProductController extends Controller
 
             // Create a new order if there is no order in the session
             if(!session('order')) {
+                $lastOrder = Order::latest()->first();
+                $pickupNumber = 1;
+
+                if ($lastOrder && $lastOrder->created_at->isToday()) {
+                    $pickupNumber = $lastOrder->pickup_number >= 99 ? 1 : $lastOrder->pickup_number + 1;
+                }
+
                 $order = Order::create([
-                    'pickup_number' => Order::max('pickup_number') > 99 ? 1 : Order::max('pickup_number') + 1,
+                    'pickup_number' => $pickupNumber,
                 ]);
 
                 $status = orderStatus::create([
