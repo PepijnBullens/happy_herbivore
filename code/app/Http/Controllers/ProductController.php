@@ -217,26 +217,36 @@ class ProductController extends Controller
 
     public function updateQuantity($id, $quantity) {
         $product = Product::find($id);
-
-        if(!$product) {
+    
+        if (!$product) {
             return response()->json(['error' => 'Product not found']);
         }
-
-        $order = session('order.orderContent', []);
-
+    
+        // Retrieve the current order from the session
+        $order = session('order', []);
+    
+        // Ensure orderContent exists within the session
+        if (!isset($order['orderContent'])) {
+            $order['orderContent'] = [];
+        }
+    
         // Check if the product is already in the order
-        if(array_key_exists($id, $order)) {
-            if($quantity == 0) {
+        if (array_key_exists($id, $order['orderContent'])) {
+            if ($quantity == 0) {
+                // Remove the item from the order
                 unset($order['orderContent'][$id]);
             } else {
+                // Update the item's quantity
                 $order['orderContent'][$id]['quantity'] = $quantity;
             }
         }
-
+    
+        // Update the session with the modified order
         session(['order' => $order]);
-
+    
         return response()->json(['order' => $order]);
     }
+    
 
     public function analytics()
     {
