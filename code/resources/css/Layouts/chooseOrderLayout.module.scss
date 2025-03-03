@@ -125,12 +125,6 @@ main {
                     cursor: pointer;
                     text-decoration: none;
 
-                    &:hover {
-                        img {
-                            width: calc(80% + 6px);
-                        }
-                    }
-
                     img {
                         position: absolute;
                         top: 0;
@@ -138,7 +132,6 @@ main {
                         transform: translate(-50%, -60%);
                         width: 80%;
                         object-fit: contain;
-                        transition: all 0.1s;
                     }
 
                     .category__name {
