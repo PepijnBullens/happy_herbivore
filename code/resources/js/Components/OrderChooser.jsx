@@ -38,8 +38,12 @@ export default function OrderChooser({
             <div className={styles.info__wrapper}>
                 <img src={product.path} alt={product.alt} />
                 <div className={styles.info}>
-                    <h2 className={styles.name}>{product.name}</h2>
-                    <p className={styles.description}>{product.description}</p>
+                    <div className={styles.text}>
+                        <h2 className={styles.name}>{product.name}</h2>
+                        <p className={styles.description}>
+                            {product.description}
+                        </p>
+                    </div>
 
                     <div>
                         <div className={styles.selectors}>

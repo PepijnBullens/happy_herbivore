@@ -1,5 +1,5 @@
 import { router, Link } from "@inertiajs/react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import styles from "../../css/Layouts/chooseOrderLayout.module.scss";
 import PrimaryButton from "@/Components/PrimaryButton";
 import { ChevronLeft } from "lucide-react";
@@ -46,7 +46,20 @@ export default function ChooseOrderLayout({
             setCheckItemInOrder(false);
             setIsInactive(false);
             setInactiveCountdown(10);
+            setTryClosingModal(false);
+
+            startTimer();
         }, 1000);
+    };
+
+    const startTimer = () => {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = setTimeout(() => setIsInactive(true), 60000);
+    };
+
+    const resetTimer = () => {
+        setInactiveCountdown(10);
+        startTimer();
     };
 
     const [total, setTotal] = useState(totalPrice ?? 0);
@@ -55,31 +68,21 @@ export default function ChooseOrderLayout({
 
     const [isInactive, setIsInactive] = useState(false);
     const [inactiveCountdown, setInactiveCountdown] = useState(10);
+    const timeoutRef = useRef(null);
 
     useEffect(() => {
-        let timeoutId;
-
-        const resetTimer = () => {
-            if (!isInactive) {
-                clearTimeout(timeoutId);
-                setInactiveCountdown(10);
-                timeoutId = setTimeout(() => setIsInactive(true), 60000);
-            }
-        };
+        startTimer();
 
         const events = ["mousemove", "keydown", "mousedown", "touchstart"];
-
         events.forEach((event) => window.addEventListener(event, resetTimer));
 
-        resetTimer();
-
         return () => {
-            clearTimeout(timeoutId);
+            clearTimeout(timeoutRef.current);
             events.forEach((event) =>
                 window.removeEventListener(event, resetTimer)
             );
         };
-    }, [isInactive]);
+    }, []);
 
     useEffect(() => {
         if (isInactive) {
@@ -93,10 +96,16 @@ export default function ChooseOrderLayout({
                 }, 1000);
             } else {
                 const intervalId = setInterval(() => {
-                    setInactiveCountdown((prevCountdown) => prevCountdown - 1);
+                    setInactiveCountdown((prevCountdown) => {
+                        if (prevCountdown <= 0) {
+                            clearInterval(intervalId);
+                            return 0;
+                        }
+                        return prevCountdown - 1;
+                    });
                 }, 1000);
 
-                return () => clearInterval(intervalId);
+                return () => clearInterval(intervalId); // Cleanup properly
             }
         }
     }, [isInactive, inactiveCountdown]);
