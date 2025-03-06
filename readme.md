@@ -62,8 +62,8 @@ Steps:
 1. **Create a text file**  
    Open Notepad and add the following line: `start chrome --kiosk --start-fullscreen --force-device-scale-factor=2 --app=https://happy-herbivore.pepijnbullens.nl/`
 
-   > [!IMPORTANT]  
-   > `--force-device-scale-factor=2` makes it so the screen is zoomed in 200%. We need this since the website isnt fully responsive and on a big screen in portrait mode its too small.
+> [!IMPORTANT]  
+> `--force-device-scale-factor=2` makes it so the screen is zoomed in 200%. We need this since the website isnt fully responsive and on a big screen in portrait mode its too small.
 
 2. **Save the file as a batch script**
 
