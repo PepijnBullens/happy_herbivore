@@ -112,6 +112,7 @@ main {
                 align-items: center;
                 padding-bottom: 2rem;
                 overflow: auto;
+                padding-top: 2rem;
 
                 &::-webkit-scrollbar {
                     display: none;
@@ -122,7 +123,7 @@ main {
                     border-radius: 5px;
                     position: relative;
                     background-color: globals.$white;
-                    margin-top: 100px;
+                    margin-top: 140px;
                     padding-top: 1rem;
                     cursor: pointer;
                     text-decoration: none;
